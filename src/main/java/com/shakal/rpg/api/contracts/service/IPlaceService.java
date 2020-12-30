@@ -12,4 +12,5 @@ public interface IPlaceService {
 	PlaceInfoDTO getPlaceById(long id) throws ResourceNotFoundException;
 	List<PlaceOverviewDTO> getPlacesListByStoryId(long id) throws ResourceNotFoundException;
 	PlaceOverviewDTO createPlace(PlaceCreateDTO placeCreate) throws ResourceNotFoundException;
+	Boolean removePlace(long placeId) throws ResourceNotFoundException;
 }

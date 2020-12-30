@@ -1,7 +1,9 @@
 package com.shakal.rpg.api.helpers;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,5 +48,36 @@ public abstract class FileHelper {
 		    readImage = null;
 		}
 		return new Dimension(w,h);
+	}
+	public static String convertImageToBase64Mini(String filePath)  {
+		
+		BufferedImage img;
+		BufferedImage scaledImage;
+		byte[] imageBytes;
+		String result = "";
+		try {
+			img = ImageIO.read(new File(filePath));
+		
+			scaledImage = resiezeImage(img,img.getWidth()/10, img.getHeight()/10);
+		
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		
+		ImageIO.write(scaledImage, "jpeg", os);
+		imageBytes = os.toByteArray();
+        
+		result = "data:image/jpeg;base64," + Base64
+		          .getEncoder()
+		          .encodeToString(imageBytes);
+		} catch (IOException e) {
+			result = "";
+		}
+		return result;
+	}
+	private static BufferedImage resiezeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+		BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		Graphics2D graphics2D = resizedImage.createGraphics();
+		graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		graphics2D.dispose();
+		return resizedImage;
 	}
 }

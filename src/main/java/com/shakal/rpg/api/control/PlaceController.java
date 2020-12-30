@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +58,10 @@ public class PlaceController {
 	@PostMapping(value="/create/mark",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<PlaceMarkCreateDTO> createNewMark(@RequestBody PlaceMarkCreateDTO markDTO) throws ResourceNotFoundException{
         return new ResponseEntity<PlaceMarkCreateDTO>(this.placeMarkService.createPlaceMark(markDTO), HttpStatus.OK);
+    }
+	@DeleteMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> removePlace(@PathVariable Long id) throws ResourceNotFoundException{
+        return new ResponseEntity<Boolean>(this.placeService.removePlace(id), HttpStatus.OK);
     }
 	
 }

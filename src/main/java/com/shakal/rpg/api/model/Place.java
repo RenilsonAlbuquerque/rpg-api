@@ -29,6 +29,8 @@ public class Place {
 	@Column(length = 4000)
 	private String background;
 	
+	//private String miniMap; 
+	
 	private String map;
 	
 	private double xDimension;
@@ -145,7 +147,15 @@ public class Place {
 	public void setMarks(List<PlaceMark> marks) {
 		this.marks = marks;
 	}
+	/*
+	public String getMiniMap() {
+		return miniMap;
+	}
 
+	public void setMiniMap(String miniMap) {
+		this.miniMap = miniMap;
+	}
+	*/
 	
 	
 }

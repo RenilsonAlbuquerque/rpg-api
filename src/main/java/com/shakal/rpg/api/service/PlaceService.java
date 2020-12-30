@@ -95,6 +95,12 @@ public class PlaceService implements IPlaceService{
 		entity = this.placeDao.save(entity);
 		return PlaceMapper.entityToOverview(entity);
 	}
+
+	@Override
+	public Boolean removePlace(long placeId) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

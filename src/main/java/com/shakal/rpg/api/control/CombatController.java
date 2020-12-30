@@ -19,6 +19,7 @@ import com.shakal.rpg.api.contracts.service.ICombatService;
 import com.shakal.rpg.api.contracts.service.IStoryService;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
 import com.shakal.rpg.api.dto.combat.PassTurnDTO;
+import com.shakal.rpg.api.dto.combat.RemoveCreatureFromCombatDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
@@ -62,6 +63,10 @@ public class CombatController {
 	@PostMapping(value="/reset-combat",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> resetCombat(@PathVariable Long id) throws ResourceNotFoundException{
 		return new ResponseEntity<Boolean>(this.combatService.resetCombat(id), HttpStatus.OK);
+    }
+	@PostMapping(value="/remove-creature")
+	public ResponseEntity<Boolean> removeCreatureFromCombat(@RequestBody RemoveCreatureFromCombatDTO removeCreatureFromCombatDTO) throws ResourceNotFoundException{
+		return new ResponseEntity<Boolean>(this.combatService.removeCreatureFromCombat(removeCreatureFromCombatDTO), HttpStatus.OK);
     }
 	
 	/*

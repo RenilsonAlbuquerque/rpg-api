@@ -12,6 +12,7 @@ import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.contracts.service.ICombatService;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
 import com.shakal.rpg.api.dto.combat.PassTurnDTO;
+import com.shakal.rpg.api.dto.combat.RemoveCreatureFromCombatDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.combat.CreatureCardDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
@@ -280,6 +281,22 @@ public class CombatService implements ICombatService{
 		result.setDificult(1);
 		result.setEnemyQueue(new ArrayList<>());
 		this.saveAndSend(storyId, result);
+		return true;
+	}
+
+
+	@Override
+	public boolean removeCreatureFromCombat(RemoveCreatureFromCombatDTO inputDto) throws ResourceNotFoundException {
+		CombatState search = this.combatStateDAO.findById(inputDto.getStoryId())
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.COMBAT_STATE_NOT_FOUND));
+		CombatStateDTO result = CombatStateMapper.entityToDTO(search);
+		
+		for(short i = 0; i< result.getCreatures().size(); i++) {
+			if(result.getCreatures().get(i).getCombatId().equals(inputDto.getCreatureCombatId())) {
+				result.getCreatures().remove(i);
+			}
+		}
+		this.saveAndSend(inputDto.getStoryId(), result);
 		return true;
 	}
 
