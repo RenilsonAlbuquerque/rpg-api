@@ -18,8 +18,9 @@ import com.shakal.rpg.api.model.place.PlaceMark;
 
 @Entity
 @Table(name= "tb_place")
-public class Place {
+public class Place extends BaseEntity {
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -29,7 +30,6 @@ public class Place {
 	@Column(length = 4000)
 	private String background;
 	
-	//private String miniMap; 
 	
 	private String map;
 	
@@ -52,6 +52,7 @@ public class Place {
 	@OneToMany(mappedBy = "place",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, targetEntity = PlaceMark.class)
 	private List<PlaceMark> marks;
 
+	
 	public long getId() {
 		return id;
 	}

@@ -26,7 +26,7 @@ import com.shakal.rpg.api.model.relation.CreatureResistence;
 @Entity
 @Table(name= "tb_creature")
 @Inheritance( strategy = InheritanceType.JOINED)
-public abstract class Creature implements ICreature, Serializable{
+public abstract class Creature extends BaseEntity implements ICreature, Serializable{
 
 	@Id
 	@GeneratedValue

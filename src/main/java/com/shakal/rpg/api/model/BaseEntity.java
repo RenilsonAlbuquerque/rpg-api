@@ -1,35 +1,43 @@
 package com.shakal.rpg.api.model;
 
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Where;
+
 @MappedSuperclass
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Where(clause="deleted=0")
 public class BaseEntity {
-	
-	@Column(nullable = false)
-	private LocalDateTime creationDate;
-	
-	@Column(nullable = false)
-	private LocalDateTime lastUpdate;
+	/*
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	protected long id;
+	*/
+	private boolean deleted;
 
-	public LocalDateTime getCreationDate() {
-		return creationDate;
+	/*
+	public long getId() {
+		return id;
 	}
 
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
+	protected void setId(long id) {
+		this.id = id;
+	}
+	*/
+	public boolean isDeleted() {
+		return this.deleted;
 	}
 
-	public LocalDateTime getLastUpdate() {
-		return lastUpdate;
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
-	public void setLastUpdate(LocalDateTime lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	
-	
 }

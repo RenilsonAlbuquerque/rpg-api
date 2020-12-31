@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.shakal.rpg.api.model.place.PlaceMark;
 import com.shakal.rpg.api.model.relation.UserStory;
 
 
