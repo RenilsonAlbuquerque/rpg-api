@@ -14,10 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.shakal.rpg.api.model.place.PlaceMark;
+import com.shakal.rpg.api.model.place.PlaceWall;
 
 @Entity
 @Table(name= "tb_place")
+@Where(clause="deleted=0")
 public class Place extends BaseEntity {
 
 	
@@ -45,6 +49,8 @@ public class Place extends BaseEntity {
 	
 	private int squareSizeCm;
 	
+	//private String wallsImage; 
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Story.class)
 	@JoinColumn(name ="story_id", referencedColumnName = "id")
 	private Story story;
@@ -52,6 +58,8 @@ public class Place extends BaseEntity {
 	@OneToMany(mappedBy = "place",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, targetEntity = PlaceMark.class)
 	private List<PlaceMark> marks;
 
+	@OneToMany(mappedBy = "place",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, targetEntity = PlaceWall.class)
+	private List<PlaceWall> walls;
 	
 	public long getId() {
 		return id;
@@ -149,14 +157,21 @@ public class Place extends BaseEntity {
 		this.marks = marks;
 	}
 	/*
-	public String getMiniMap() {
-		return miniMap;
+	public String getWallsImage() {
+		return wallsImage;
 	}
 
-	public void setMiniMap(String miniMap) {
-		this.miniMap = miniMap;
+	public void setWallsImage(String wallsImage) {
+		this.wallsImage = wallsImage;
 	}
 	*/
-	
+
+	public List<PlaceWall> getWalls() {
+		return walls;
+	}
+
+	public void setWalls(List<PlaceWall> walls) {
+		this.walls = walls;
+	}
 	
 }

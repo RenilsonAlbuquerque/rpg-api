@@ -34,6 +34,10 @@ public class StoryMapper {
 		dto.setId(entity.getId());
 		dto.setName(entity.getName());
 		dto.setMap(entity.getMap());
+		dto.setWalls(entity.getWalls().stream()
+				.map( wall -> PlaceWallsMapper.entityToDTO(wall) )
+				.collect(Collectors.toList()));
+		//dto.setWallsImage(entity.getWallsImage());
 		dto.setBackground(entity.getBackground());
 		dto.setxDimension(entity.getxDimension());
 		dto.setyDimension(entity.getyDimension());

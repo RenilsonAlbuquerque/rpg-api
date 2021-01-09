@@ -7,4 +7,5 @@ public class Constants {
 	
 	public static final String LOGIN_PATH = "/login";
 	public static final String MAPS_IMAGES_PATH = "./images/maps/";
+	public static final String IMAGE_MAPS_WALLS_PATH = "./images/walls-map/";
 }

@@ -1,8 +1,5 @@
 package com.shakal.rpg.api.model;
 
-
-
-
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +22,10 @@ import com.shakal.rpg.api.model.creature.CreatureSize;
 public class Monster extends Creature{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -942722235067272024L;
 	private int armorClass;
 	private int baseLifeDice;
 	

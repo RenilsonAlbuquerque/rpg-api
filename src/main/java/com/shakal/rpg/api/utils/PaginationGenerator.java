@@ -8,7 +8,7 @@ import com.shakal.rpg.api.dto.filter.CustomPage;
 
 public class PaginationGenerator {
 	public static CustomPage<?> convertPage(Page inputPage){
-		CustomPage result = new CustomPage();
+		CustomPage<?> result = new CustomPage();
 				result.setElements(inputPage.getContent());
 				result.setCurrentPageNumber(inputPage.getNumber() +1);
 				result.setTotalOfPages(inputPage.getTotalPages());

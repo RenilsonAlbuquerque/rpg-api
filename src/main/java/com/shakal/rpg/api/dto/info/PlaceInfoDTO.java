@@ -1,6 +1,8 @@
 package com.shakal.rpg.api.dto.info;
 
+import java.util.List;
 
+import com.shakal.rpg.api.dto.map.MapWallsDTO;
 
 public class PlaceInfoDTO {
 	
@@ -11,6 +13,8 @@ public class PlaceInfoDTO {
 	private String background;
 	
 	private String map;
+	
+	private List<MapWallsDTO> walls;
 	
 	private double xDimension;
 	
@@ -23,6 +27,7 @@ public class PlaceInfoDTO {
 	private double naturalWidth;
 
 	private int squareSizeCm;
+	
 	public long getId() {
 		return id;
 	}
@@ -102,7 +107,15 @@ public class PlaceInfoDTO {
 	public void setSquareSizeCm(int squareSizeCm) {
 		this.squareSizeCm = squareSizeCm;
 	}
-	
+
+	public List<MapWallsDTO> getWalls() {
+		return walls;
+	}
+
+	public void setWalls(List<MapWallsDTO> walls) {
+		this.walls = walls;
+	}
+
 	
 
 }

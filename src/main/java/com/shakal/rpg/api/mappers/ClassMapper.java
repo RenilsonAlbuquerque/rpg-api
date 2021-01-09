@@ -1,7 +1,6 @@
 package com.shakal.rpg.api.mappers;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 import com.shakal.rpg.api.dto.create.ClassCreateInputDTO;
