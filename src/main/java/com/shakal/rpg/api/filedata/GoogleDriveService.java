@@ -28,6 +28,7 @@ public class GoogleDriveService implements IExternalImageRepository{
 		try {
 			return GoogleDriveRepository.saveMapImageFile(file, fileName,JPEG_TYPE,GoogleDriveRepository.IMAGE_PATH_ID);
 		} catch (IOException | GeneralSecurityException e) {
+			e.printStackTrace();
 			throw new FileManagementException("Erro ao submeter o arquivo");
 		}
 	}

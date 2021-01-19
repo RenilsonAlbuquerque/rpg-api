@@ -26,7 +26,7 @@ public class JwtTokenProvider {
 
     static String SECRET_KEY = "secret";
 
-    static long EXPIRATION_TIME = 860_000_000; // 8days
+    static long EXPIRATION_TIME = 2592000000L; // 8days
 
     static final String TOKEN_PREFIX = "Bearer";
 

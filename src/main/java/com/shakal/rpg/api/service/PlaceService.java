@@ -50,9 +50,9 @@ public class PlaceService implements IPlaceService{
 	
 	@Autowired
 	public PlaceService(PlaceDAO placeDao, StoryDAO storyDao,PlaceWallDAO placeWallDAO,
-			GoogleDriveService mapsStorageService
+			//GoogleDriveService mapsStorageService
 			//GoogleDriveMapWallsService wallsMapRepository
-			//LocalStorageMapService mapsStorageService
+			LocalStorageMapService mapsStorageService
 			//LocalStorageMapWallsService wallsMapRepository
 			) {
 		this.placeDao = placeDao;
@@ -108,6 +108,7 @@ public class PlaceService implements IPlaceService{
 		entity.setStory(story);
 		//entity.setWallsImage("");
 		entity = this.placeDao.save(entity);
+		
 		String fileName = "map" + entity.getId()+ ".jpg";
 		Dimension dimension = new Dimension();
 		String fileIdentifier = null;
@@ -142,9 +143,9 @@ public class PlaceService implements IPlaceService{
 		Place place = this.placeDao.findById(placeId)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.PLACE_NOT_FOUND));
 		
-		place.getWalls().clear();
+		//place.getWalls().clear();
 		
-		
+		this.placeWallDAO.deletePlacesWallsByPlaceId(placeId);
 		
 		for(MapWallsDTO wall: inputDto) {
 			this.placeWallDAO.save( PlaceWallsMapper.dtoToEntity(wall,place));
