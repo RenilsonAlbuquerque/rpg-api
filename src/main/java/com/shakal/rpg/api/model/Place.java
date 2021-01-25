@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
+import com.shakal.rpg.api.model.base.BaseEntity;
 import com.shakal.rpg.api.model.place.PlaceMark;
 import com.shakal.rpg.api.model.place.PlaceWall;
 

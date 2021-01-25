@@ -1,4 +1,4 @@
-package com.shakal.rpg.api.filedata;
+package com.shakal.rpg.api.filedata.strategy;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -11,21 +11,17 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.stereotype.Service;
-
-import com.shakal.rpg.api.contracts.filemanage.IExternalImageRepository;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
+import com.shakal.rpg.api.filedata.enums.PathEnum;
 import com.shakal.rpg.api.helpers.FileHelper;
-import com.shakal.rpg.api.utils.Constants;
 
-@Service
-public class LocalStorageMapService implements IExternalImageRepository {
+public class LocalFileStorageImplementation  implements IExternalFileStorageStrategy {
 
 	@Override
-	public String retrieveFileById(String id) throws ResourceNotFoundException {
+	public String retrieveFileById(String id,String filePath) throws ResourceNotFoundException {
 		try {
-			File file = new File(Constants.MAPS_IMAGES_PATH + id);
+			File file = new File(filePath + id);
 			return "data:image/jpeg;base64," + Base64
 			          .getEncoder()
 			          .encodeToString(Files.readAllBytes(file.toPath()));
@@ -35,9 +31,8 @@ public class LocalStorageMapService implements IExternalImageRepository {
 	}
 
 	@Override
-	public String saveMapImageFile(File file, String fileName)throws FileManagementException{
-				
-		Path destinationFile = Paths.get(Constants.MAPS_IMAGES_PATH,fileName);
+	public String saveFile(File file, String fileName, String filePath) throws FileManagementException {
+		Path destinationFile = Paths.get(filePath,fileName);
 		try {
 			Files.write(destinationFile, Files.readAllBytes(file.toPath()));
 		} catch (IOException e) {
@@ -48,13 +43,13 @@ public class LocalStorageMapService implements IExternalImageRepository {
 	}
 
 	@Override
-	public String retrieveMinimap(String fileId) {
+	public String retrieveMinimap(String fileId,String filePath) {
 		BufferedImage img;
 		BufferedImage scaledImage;
 		byte[] imageBytes;
 		String result = "";
 		try {
-			img = ImageIO.read(new File(Constants.MAPS_IMAGES_PATH + fileId));
+			img = ImageIO.read(new File(filePath + fileId));
 		
 			scaledImage = FileHelper.resiezeImage(img,img.getWidth()/10, img.getHeight()/10);
 		
@@ -68,6 +63,21 @@ public class LocalStorageMapService implements IExternalImageRepository {
 		          .encodeToString(imageBytes);
 		} catch (IOException e) {
 			result = "";
+		}
+		return result;
+	}
+
+	@Override
+	public String getPath(PathEnum pathSelector) {
+		String result = "";
+		if(pathSelector == PathEnum.MAP ) {
+			result = "./images/maps/";
+		}
+		if(pathSelector == PathEnum.PROFILE_PICTURE ) {
+			result = "./images/creature/profile/";
+		}
+		if(pathSelector == PathEnum.TOKEN) {
+			result = "./images/creature/token/";
 		}
 		return result;
 	}

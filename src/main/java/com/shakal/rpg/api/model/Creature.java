@@ -20,13 +20,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.shakal.rpg.api.contracts.entity.ICreature;
+import com.shakal.rpg.api.model.base.BaseEntity;
+import com.shakal.rpg.api.model.base.MainEntity;
 import com.shakal.rpg.api.model.relation.CreatureAtribute;
 import com.shakal.rpg.api.model.relation.CreatureResistence;
 
 @Entity
 @Table(name= "tb_creature")
 @Inheritance( strategy = InheritanceType.JOINED)
-public abstract class Creature extends BaseEntity implements ICreature, Serializable{
+public abstract class Creature extends MainEntity implements ICreature, Serializable{
 
 	@Id
 	@GeneratedValue

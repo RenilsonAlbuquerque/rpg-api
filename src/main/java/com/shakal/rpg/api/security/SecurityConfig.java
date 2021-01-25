@@ -6,6 +6,8 @@ package com.shakal.rpg.api.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,12 +21,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.shakal.rpg.api.filedata.strategy.DriveExternalFileStorageImplementation;
+import com.shakal.rpg.api.filedata.strategy.IExternalFileStorageStrategy;
+import com.shakal.rpg.api.filedata.strategy.LocalFileStorageImplementation;
 import com.shakal.rpg.api.handler.CustomAccessDeniedHandler;
+import com.shakal.rpg.api.model.User;
 import com.shakal.rpg.api.utils.Constants;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableJpaAuditing
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
@@ -60,5 +67,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 	    web.ignoring().antMatchers("/user");
 	}
+	
+	@Bean
+	public AuditorAware<Long> auditorProvider() {
+	   return new SecurityAuditorAware();
+	}
+	
+	@Bean
+	public IExternalFileStorageStrategy getExternalFileStorageStrategy() {
+		//return new LocalFileStorageImplementation();
+		return new DriveExternalFileStorageImplementation();
+	}
+	
+	
+	
 
 }

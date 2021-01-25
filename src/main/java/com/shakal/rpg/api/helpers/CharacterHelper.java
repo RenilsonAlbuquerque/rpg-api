@@ -1,5 +1,10 @@
 package com.shakal.rpg.api.helpers;
 
+import java.io.File;
+import java.io.IOException;
+
+import com.shakal.rpg.api.exception.FileManagementException;
+import com.shakal.rpg.api.filedata.service.ExternalCreatureProfileImageService;
 import com.shakal.rpg.api.model.Dice;
 
 public class CharacterHelper {
@@ -26,5 +31,17 @@ public class CharacterHelper {
 		}
 		return result;
 		
+	}
+	
+	public static String saveCharacterProfilePicture(long id,String base64Image,ExternalCreatureProfileImageService service) throws FileManagementException {
+		String fileName = "creature" + id + ".jpg";
+		String fileIdentifier = null;
+		try {
+			File fileToUp = FileHelper.base64ToFile(base64Image);
+			fileIdentifier = service.saveMapImageFile(fileToUp, fileName);
+			return fileIdentifier;
+		} catch (IOException e) {
+			throw new FileManagementException("Erro ao salvar o arquivo");
+		}
 	}
 }

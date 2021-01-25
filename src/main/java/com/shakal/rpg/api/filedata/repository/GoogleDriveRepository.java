@@ -74,7 +74,7 @@ public class GoogleDriveRepository  {
 
 	        // Print the names and IDs for up to 10 files.
 	        FileList result = service.files().list()
-	                .setPageSize(10)
+	                .setPageSize(50)
 	                .setFields("nextPageToken, files(id, name)")
 	                .execute();
 	        List<File> files = result.getFiles();

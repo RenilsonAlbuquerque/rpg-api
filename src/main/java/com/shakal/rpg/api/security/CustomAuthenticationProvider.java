@@ -36,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             if (encoder.bCryptPasswordEncoder().matches(encryptedPassword,user.getPassword())) {
             	
             	AuthenticationContext auth = new AuthenticationContext(true, user.getId(), 
-            			user.getUsername(), user.getPassword());
+            			user.getUsername(),user.getPassword());
                 return auth;
             }else{
                 throw new BadCredentialsException(Messages.INVALID_PASSWORD);

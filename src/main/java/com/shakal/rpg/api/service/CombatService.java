@@ -159,7 +159,7 @@ public class CombatService implements ICombatService{
 		CreatureCardDTO result = new CreatureCardDTO();
 		result.setId(characterSheet.getId());
 		result.setName(characterSheet.getName());
-		result.setImagePath(characterSheet.getImagePath());
+		//result.setImagePath(characterSheet.getImagePath());
 		result.setTotalLifePoints(characterSheet.getLifePoints().getTotalLifePoints());
 		return result;
 	}

@@ -48,7 +48,9 @@ import com.shakal.rpg.api.repository.MonsterSizeDAO;
 import com.shakal.rpg.api.repository.MonsterTypeDAO;
 import com.shakal.rpg.api.specification.MonsterSpecification;
 import com.shakal.rpg.api.exception.*;
+import com.shakal.rpg.api.filedata.service.ExternalCreatureProfileImageService;
 import com.shakal.rpg.api.helpers.AtributeHelper;
+import com.shakal.rpg.api.helpers.CharacterHelper;
 import com.shakal.rpg.api.helpers.SizeHelper;
 import com.shakal.rpg.api.mappers.AtributeMapper;
 import com.shakal.rpg.api.mappers.AttackMapper;
@@ -88,6 +90,8 @@ public class MonsterService implements IMonsterService {
 	private MonsterFeatureDAO monsterFeatureDAO;
 	private DiceDAO diceDao;
 	private ImageTokenDAO tokenDao;
+	private ExternalCreatureProfileImageService externalCreatureProfileImageService;
+	
 	@Autowired
 	public MonsterService(MonsterDAO monsterDao,LanguageDAO languageDao, 
 			MonsterChallengeLevelDAO monsterChallengeDao, DamageTypeDAO damageTypeDao,
@@ -95,7 +99,8 @@ public class MonsterService implements IMonsterService {
 			AlignmentDAO alignmentDao, AtributeDAO atributeDao,
 			CreatureAtributeDAO creatureAtributeDao, CreatureResistenceService creatureResistenceService,
 			MonsterFeatureDAO monsterFeatureDao, DiceDAO diceDao,AttackService attackService,
-			ImageTokenDAO tokenDao) {
+			ImageTokenDAO tokenDao,
+			ExternalCreatureProfileImageService externalCreatureProfileImageService) {
 		this.monsterDao = monsterDao;
 		this.languageDao = languageDao;
 		this.challengeLevelDao = monsterChallengeDao;
@@ -109,6 +114,7 @@ public class MonsterService implements IMonsterService {
 		this.diceDao = diceDao;
 		this.attackService = attackService;
 		this.tokenDao = tokenDao;
+		this.externalCreatureProfileImageService = externalCreatureProfileImageService;
 	}
 
 	@Override
@@ -119,6 +125,7 @@ public class MonsterService implements IMonsterService {
 		MonsterSheetDTO result = new MonsterSheetDTO();
 		result.setId(search.getId());
 		result.setName(search.getRace().getName());
+		
 		result.setAlignment(search.getAlignment().getName());
 		result.setSize(search.getSize().getName());
 		result.setArmorClass(search.getArmorClass());
@@ -186,8 +193,9 @@ public class MonsterService implements IMonsterService {
 	public MonsterInfoDTO getMonsterInfoById(long id) throws ResourceNotFoundException {
 		Monster search = this.monsterDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.MONSTER_NOT_FOUND));
-		return MonsterMapper.entityToInfo(search);
-		
+		MonsterInfoDTO  result = MonsterMapper.entityToInfo(search);
+		result.setProfilePicturePath(this.externalCreatureProfileImageService.retrieveFileById(search.getImagePath()));
+		return result;
 	}
 
 	@Override
@@ -218,7 +226,7 @@ public class MonsterService implements IMonsterService {
 	}
 
 	@Override
-	public MonsterCreateDTO insertMonster(MonsterCreateDTO inputDto) throws ResourceNotFoundException, BusinessException {
+	public MonsterCreateDTO insertMonster(MonsterCreateDTO inputDto) throws ResourceNotFoundException, BusinessException, FileManagementException {
 		ErrorMessages error = new ErrorMessages();
 		CharacterValidator.validateToken(inputDto.getImagePath(), error);
 		
@@ -246,7 +254,7 @@ public class MonsterService implements IMonsterService {
 		entity.setRace(new MonsterRace(inputDto.getRaceName(),
 										inputDto.getRaceDescription(),
 										typeResult));
-		entity.setImagePath(inputDto.getImagePath());
+		
 		entity.setSize(sizeSearch);
 		entity.setAlignment(alignmentSearch);
 		entity.setArmorClass(inputDto.getArmorClass());
@@ -271,6 +279,8 @@ public class MonsterService implements IMonsterService {
 		*/
 		
 		entity = this.monsterDao.save(entity);
+		entity.setImagePath(
+				CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
 		
 		entity.setAtributes(this.mountAtributes(inputDto, entity));
 		entity.setResistences(this.cretureResisteceService.mountResistence(inputDto, entity));
@@ -359,10 +369,18 @@ public class MonsterService implements IMonsterService {
 		result.setLifePoints(search.getBaseLifeDice());
 		result.setTotalLifePoints(search.getBaseLifeDice());
 		result.setName(search.getRace().getName());
-		result.setImagePath(search.getImagePath());
+		//result.setImagePath(search.getImagePath());
 		result.setSpeed(search.getSpeed());
 		result.setSize(SizeHelper.getCreatureSizeInSquare( search.getSize()));
 		return result;
+	}
+
+	@Override
+	public MonsterCreateDTO getMonsterInputToEditById(long id) throws ResourceNotFoundException {
+		Monster search = this.monsterDao.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.MONSTER_NOT_FOUND));
+
+		return MonsterMapper.entityToMonsterCreateDTO(search);
 	}
 	
 	

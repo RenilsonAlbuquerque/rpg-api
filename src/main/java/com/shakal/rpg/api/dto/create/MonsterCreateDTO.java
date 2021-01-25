@@ -8,6 +8,7 @@ import com.shakal.rpg.api.dto.commons.NameDescriptionDTO;
 
 public class MonsterCreateDTO {
 
+	private long id;
 	private String raceName;
 	private String raceDescription;
 	private String imagePath;
@@ -38,6 +39,13 @@ public class MonsterCreateDTO {
 	private List<ActionCreateDTO> actions;
 	private List<ActionCreateDTO> legendaryActions;
 	
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getRaceName() {
 		return raceName;
 	}

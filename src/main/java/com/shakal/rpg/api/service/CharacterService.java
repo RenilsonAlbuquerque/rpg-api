@@ -1,5 +1,8 @@
 package com.shakal.rpg.api.service;
 
+import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,10 +22,13 @@ import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
 import com.shakal.rpg.api.dto.info.LevelDTO;
 import com.shakal.rpg.api.exception.BusinessException;
+import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
+import com.shakal.rpg.api.filedata.service.ExternalCreatureProfileImageService;
 import com.shakal.rpg.api.helpers.AtributeHelper;
 import com.shakal.rpg.api.helpers.CharacterHelper;
 import com.shakal.rpg.api.helpers.CombatHelper;
+import com.shakal.rpg.api.helpers.FileHelper;
 import com.shakal.rpg.api.mappers.CharacterMapper;
 import com.shakal.rpg.api.mappers.ClassMapper;
 import com.shakal.rpg.api.mappers.CreatureMapper;
@@ -72,6 +78,7 @@ public class CharacterService implements ICharacterService{
 	private AtributeDAO atributeDao;
 	private LanguageDAO languageDao;
 	private ProeficiencyDAO proeficiencyDao;
+	private ExternalCreatureProfileImageService externalCreatureProfileImageService;
 	
 	@Autowired
 	public CharacterService(IUserService userService,
@@ -82,7 +89,8 @@ public class CharacterService implements ICharacterService{
 			CreatureAtributeDAO creatureAtributeDao,
 			ImageTokenDAO tokenDao,
 			AtributeDAO atributeDao,LanguageDAO languageDao,
-			ProeficiencyDAO proeficiencyDao) {
+			ProeficiencyDAO proeficiencyDao,
+			ExternalCreatureProfileImageService externalCreatureProfileImageService) {
 		this.userService = userService;
 		this.characterDao = characterDao;
 		this.alignmentDao = alignmentDao;
@@ -96,10 +104,11 @@ public class CharacterService implements ICharacterService{
 		this.atributeDao = atributeDao;
 		this.languageDao = languageDao;
 		this.proeficiencyDao = proeficiencyDao;
+		this.externalCreatureProfileImageService = externalCreatureProfileImageService;
 	}
 	
 	@Override
-	public boolean createCharacterInStory(CharacterCreateDTO inputDto) throws BusinessException {
+	public boolean createCharacterInStory(CharacterCreateDTO inputDto) throws BusinessException,FileManagementException {
 		ErrorMessages error = new ErrorMessages();
 		CharacterValidator.ValidateDTO(inputDto, error);
 		
@@ -118,7 +127,7 @@ public class CharacterService implements ICharacterService{
 		}
 		
 		Character entity = new Character();
-		entity.setImagePath(inputDto.getImagePath());
+		//entity.setImagePath(inputDto.getImagePath());
 		entity.setName(inputDto.getName());
 		entity.setAge(inputDto.getAge());
 		entity.setHeight(inputDto.getHeight());
@@ -136,11 +145,16 @@ public class CharacterService implements ICharacterService{
 		
 		
 		entity = this.characterDao.save(entity);
+		entity.setImagePath(
+				CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
 		this.userService.setCharacterToUserInStory(inputDto.getStoryId(),
 				inputDto.getUserId(), entity);
 		this.buildCharacterAtributes(inputDto,entity,raceSearch.get(), classSearch.get());
 		this.characterClassLevelDAO.save(ClassMapper.createFistLevelOfPlayer(classLevelSearch.get(),entity));
 		this.tokenDao.save(CreatureTokenMapper.createToken(inputDto.getTokenImageRaw(),entity));
+		
+		
+		this.characterDao.save(entity);
 		return true;
 	}
 
@@ -183,7 +197,7 @@ public class CharacterService implements ICharacterService{
 		result.setLifePoints(characterSheet.getLifePoints().getTotalLifePoints());
 		result.setLevel(new LevelDTO(2,450));
 		result.setTotalLifePoints(characterSheet.getLifePoints().getTotalLifePoints());
-		result.setImagePath(characterSheet.getImagePath());
+		//result.setImagePath(characterSheet.getImagePath());
 		result.setLifePercent(CombatHelper.calculateLifePercent(characterSheet.getLifePoints().getTotalLifePoints(), characterSheet.getLifePoints().getTotalLifePoints()));
 		result.setSpeed(characterSheet.getSpeed());
 		result.setPlayerId(playerId);
@@ -331,4 +345,5 @@ public class CharacterService implements ICharacterService{
 		this.creatureAtributeDao.save(charisma);
 		
 	}
+	
 }

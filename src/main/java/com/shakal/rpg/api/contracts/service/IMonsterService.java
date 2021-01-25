@@ -10,11 +10,13 @@ import com.shakal.rpg.api.dto.filter.PaginationFilter;
 import com.shakal.rpg.api.dto.info.MonsterInfoDTO;
 import com.shakal.rpg.api.dto.overview.MonsterOverviewDTO;
 import com.shakal.rpg.api.exception.BusinessException;
+import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 
 public interface IMonsterService {
 	
-	MonsterCreateDTO insertMonster(MonsterCreateDTO inputDto) throws ResourceNotFoundException,BusinessException;
+	MonsterCreateDTO insertMonster(MonsterCreateDTO inputDto) throws ResourceNotFoundException,BusinessException,FileManagementException;
+	MonsterCreateDTO getMonsterInputToEditById(long id)throws ResourceNotFoundException;
 	MonsterSheetDTO getMonsterSheetById(long id) throws ResourceNotFoundException;
 	CustomPage<MonsterOverviewDTO> searchMonsterPaged(String search, PaginationFilter filter);
 	CustomPage<MonsterOverviewDTO> listsMonsterPaged(PaginationFilter filter);

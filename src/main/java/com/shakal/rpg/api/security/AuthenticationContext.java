@@ -6,6 +6,8 @@ import java.util.Collection;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.shakal.rpg.api.model.User;
+
 
 
 public class AuthenticationContext implements Authentication {

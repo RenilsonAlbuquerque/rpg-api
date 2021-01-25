@@ -11,7 +11,7 @@ public class CreatureCardDTO implements Comparable<CreatureCardDTO>{
 	 private LevelDTO level;
 	 private int lifePoints;
 	 private int totalLifePoints;
-	 private String imagePath;
+	 //private String imagePath;
 	 private int lifePercent;
 	 private CardPositionDTO position;
 	 private long playerId;
@@ -79,7 +79,7 @@ public class CreatureCardDTO implements Comparable<CreatureCardDTO>{
 		this.totalLifePoints = totalLifePoints;
 	}
 
-
+	/*
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -88,7 +88,7 @@ public class CreatureCardDTO implements Comparable<CreatureCardDTO>{
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-
+*/
 
 	public int getLifePercent() {
 		return lifePercent;

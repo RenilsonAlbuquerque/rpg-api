@@ -1,5 +1,4 @@
-package com.shakal.rpg.api.filedata;
-
+package com.shakal.rpg.api.filedata.strategy;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -10,23 +9,20 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.stereotype.Service;
-
-import com.shakal.rpg.api.contracts.filemanage.IExternalImageRepository;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
+import com.shakal.rpg.api.filedata.enums.PathEnum;
 import com.shakal.rpg.api.filedata.repository.GoogleDriveRepository;
 import com.shakal.rpg.api.helpers.FileHelper;
 
-@Service
-public class GoogleDriveService implements IExternalImageRepository{
+public class DriveExternalFileStorageImplementation implements IExternalFileStorageStrategy {
 
 	private final String JPEG_TYPE = "image/jpeg";
 	
 	@Override
-	public String saveMapImageFile(File file, String fileName) throws FileManagementException {
+	public String saveFile(File file, String fileName,String filePath) throws FileManagementException {
 		try {
-			return GoogleDriveRepository.saveMapImageFile(file, fileName,JPEG_TYPE,GoogleDriveRepository.IMAGE_PATH_ID);
+			return GoogleDriveRepository.saveMapImageFile(file, fileName,JPEG_TYPE,filePath);
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
 			throw new FileManagementException("Erro ao submeter o arquivo");
@@ -34,7 +30,7 @@ public class GoogleDriveService implements IExternalImageRepository{
 	}
 
 	@Override
-	public String retrieveFileById(String id) throws ResourceNotFoundException {
+	public String retrieveFileById(String id,String imagePath) throws ResourceNotFoundException {
 		try {
 			return GoogleDriveRepository.retrieveFileById(id);
 		} catch (IOException | GeneralSecurityException e) {
@@ -43,7 +39,7 @@ public class GoogleDriveService implements IExternalImageRepository{
 	}
 
 	@Override
-	public String retrieveMinimap(String fileId) {
+	public String retrieveMinimap(String fileId,String imagePath) {
 		
 		BufferedImage img;
 		BufferedImage scaledImage;
@@ -69,4 +65,18 @@ public class GoogleDriveService implements IExternalImageRepository{
 		
 	}
 
+	@Override
+	public String getPath(PathEnum pathSelector) {
+		String result = "";
+		if(pathSelector == PathEnum.MAP) {
+			result = "1-QBNuMNAdlvuflChf9sjGwm9_iqNlkFs";
+		}
+		if(pathSelector == PathEnum.PROFILE_PICTURE) {
+			result = "102AY_xfMCBWDG4-8-TNQ_G2_HdHHenUa";
+		}
+		if(pathSelector == PathEnum.TOKEN) {
+			result = "1OW5epKZwJt-0Pq90dbOaSthccmgnzvfU";
+		}
+		return result;
+	}
 }

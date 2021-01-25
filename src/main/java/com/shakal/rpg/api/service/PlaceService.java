@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,8 @@ import com.shakal.rpg.api.dto.map.MapWallsDTO;
 import com.shakal.rpg.api.dto.overview.PlaceOverviewDTO;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
-import com.shakal.rpg.api.filedata.GoogleDriveMapWallsService;
-import com.shakal.rpg.api.filedata.GoogleDriveService;
-import com.shakal.rpg.api.filedata.LocalStorageMapWallsService;
-import com.shakal.rpg.api.filedata.LocalStorageMapService;
+
+import com.shakal.rpg.api.filedata.service.ExternalMapImageService;
 import com.shakal.rpg.api.helpers.FileHelper;
 import com.shakal.rpg.api.mappers.MonsterMapper;
 import com.shakal.rpg.api.mappers.PlaceMapper;
@@ -44,22 +44,18 @@ public class PlaceService implements IPlaceService{
 
 	private PlaceDAO placeDao;
 	private StoryDAO storyDao;
-	private IExternalImageRepository externalImageRepository;
 	private PlaceWallDAO placeWallDAO;
-	//private IExternalWallsMapRepository externalImageWallsRepository;
+	private ExternalMapImageService externalMapImageService;
+	
 	
 	@Autowired
 	public PlaceService(PlaceDAO placeDao, StoryDAO storyDao,PlaceWallDAO placeWallDAO,
-			//GoogleDriveService mapsStorageService
-			//GoogleDriveMapWallsService wallsMapRepository
-			LocalStorageMapService mapsStorageService
-			//LocalStorageMapWallsService wallsMapRepository
+			ExternalMapImageService externalMapImageService
 			) {
 		this.placeDao = placeDao;
 		this.storyDao = storyDao;
 		this.placeWallDAO = placeWallDAO;
-		this.externalImageRepository = mapsStorageService;
-		//this.externalImageWallsRepository = wallsMapRepository;
+		this.externalMapImageService = externalMapImageService;
 	}
 	
 	@Override
@@ -67,14 +63,8 @@ public class PlaceService implements IPlaceService{
 		Place place = this.placeDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
 		
-		place.setMap(this.externalImageRepository.retrieveFileById(place.getMap()));
-		/*
-		if(place.getWallsImage() != null && !place.getWallsImage().isEmpty()) {
-			place.setWallsImage(this.externalImageWallsRepository.retrieveWallImageFileById(place.getWallsImage()));
-		}else {
-			place.setWallsImage("");
-		}
-		*/
+		place.setMap(this.externalMapImageService.retrieveFileById(place.getMap()));
+		
 		return StoryMapper.placeEntityToDto(place);
 	}
 
@@ -83,9 +73,9 @@ public class PlaceService implements IPlaceService{
 		
 		List<PlaceOverviewDTO> result = new ArrayList<PlaceOverviewDTO>();
 		PlaceOverviewDTO added = null;
-		for(Place pl : placeDao.findAll()) {
+		for(Place pl : this.placeDao.retrieveAllPlacesInStory(id)) {
 			added = PlaceMapper.entityToOverview(pl);
-			added.setFolderImage(this.externalImageRepository.retrieveMinimap(pl.getMap()));
+			added.setFolderImage(this.externalMapImageService.retrieveMinimap(pl.getMap()));
 			result.add(added);
 		}
 		return result;
@@ -115,7 +105,7 @@ public class PlaceService implements IPlaceService{
 		
 		try {
 			File fileToUp = FileHelper.base64ToFile(placeCreate.getMap());
-			fileIdentifier = externalImageRepository.saveMapImageFile(fileToUp, fileName);
+			fileIdentifier = externalMapImageService.saveMapImageFile(fileToUp, fileName);
 			dimension = FileHelper.getDimensionsOfImage(fileToUp);
 			
 		} catch (IOException e) {
@@ -138,6 +128,7 @@ public class PlaceService implements IPlaceService{
 		
 	}
 
+	@Transactional
 	@Override
 	public boolean updatePlaceWallsImage(long placeId,List<MapWallsDTO> inputDto) throws ResourceNotFoundException,FileManagementException {
 		Place place = this.placeDao.findById(placeId)
