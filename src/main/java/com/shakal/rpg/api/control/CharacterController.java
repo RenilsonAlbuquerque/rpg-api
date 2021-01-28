@@ -1,5 +1,6 @@
 package com.shakal.rpg.api.control;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +19,11 @@ import com.shakal.rpg.api.dto.create.CharacterCreateInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
+import com.shakal.rpg.api.dto.info.CharacterSpellDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
+import com.shakal.rpg.api.service.SpellService;
 
 @CrossOrigin
 @RestController
@@ -29,6 +32,9 @@ public class CharacterController {
 
 	@Autowired
 	private ICharacterService characterService;
+	
+	@Autowired
+	private SpellService spellService;
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> createCharacter(@RequestBody CharacterCreateDTO createDto) throws BusinessException, FileManagementException{
@@ -45,5 +51,13 @@ public class CharacterController {
 	@GetMapping(value="/metadata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CharacterCreateInputDTO> getCharacterCreationMetadata(){
 		return new ResponseEntity<CharacterCreateInputDTO>(this.characterService.getCharacterCreationMetadata(), HttpStatus.OK);
+    }
+	@GetMapping(value="/spells/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CharacterSpellDTO> getCharacterSpells(@PathVariable Long id) throws ResourceNotFoundException {
+		return new ResponseEntity<CharacterSpellDTO>(this.spellService.getSpellsOfCharacter(id), HttpStatus.OK);
+    }
+	@PostMapping(value="/spells/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> updateCharacterSpellsList(@RequestBody CharacterSpellDTO inputDto,@PathVariable Long id) throws BusinessException, FileManagementException, ResourceNotFoundException{
+		return new ResponseEntity<Boolean>(this.spellService.updateCreatureSpells(inputDto,id), HttpStatus.OK);
     }
 }

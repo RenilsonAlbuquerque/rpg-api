@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -66,6 +67,8 @@ public class Character extends Creature implements Serializable{
             inverseJoinColumns =  @JoinColumn(name = "proeficiency_id", referencedColumnName = "id"))
     private List<Proeficiency> proeficiencies;
 	
+	@OneToOne(mappedBy = "character",fetch = FetchType.LAZY)
+	private CharacterSpell spell;
 	
 
 	public String getName() {
@@ -180,6 +183,14 @@ public class Character extends Creature implements Serializable{
 
 	public void setExperiencyPoints(int experiencyPoints) {
 		this.experiencyPoints = experiencyPoints;
+	}
+
+	public CharacterSpell getSpell() {
+		return spell;
+	}
+
+	public void setSpell(CharacterSpell spell) {
+		this.spell = spell;
 	}
 	
 	
