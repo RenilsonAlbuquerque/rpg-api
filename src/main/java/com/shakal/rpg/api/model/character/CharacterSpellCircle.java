@@ -1,7 +1,6 @@
 package com.shakal.rpg.api.model.character;
 
 import javax.persistence.CascadeType;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.shakal.rpg.api.model.embedded.CharacterSpellCircleId;
 
 @Entity
 @Table(name= "tb_character_spell_circle")
@@ -88,6 +86,7 @@ public class CharacterSpellCircle {
 	public void setCharacterSpell(CharacterSpell characterSpell) {
 		this.characterSpell = characterSpell;
 	}
+
 	
 	
 	

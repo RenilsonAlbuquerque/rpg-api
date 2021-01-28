@@ -9,6 +9,7 @@ import com.shakal.rpg.api.dto.info.CreatureSpellInfoDTO;
 import com.shakal.rpg.api.model.character.CharacterSpell;
 import com.shakal.rpg.api.model.character.CharacterSpellCircle;
 import com.shakal.rpg.api.model.character.CharacterSpellCircleEnum;
+import com.shakal.rpg.api.model.character.Character;
 
 public class CharacterSpellMapper {
 
@@ -21,13 +22,14 @@ public class CharacterSpellMapper {
 		result.setTotalAmount(entity.getTotalAmount());
 		return result;
 	}
-	public static CharacterSpellCircle dtoToEntity(CreatureSpellInfoDTO inputDto) {
+	public static CharacterSpellCircle dtoToEntity(CreatureSpellInfoDTO inputDto,CharacterSpell characterSpell) {
 		CharacterSpellCircle result = new CharacterSpellCircle();
 		result.setId(inputDto.getId());
 		result.setQuantity(inputDto.getQuantity());
 		result.setSpellCircle(inputDto.getSpellCircle());
 		result.setSpellText(inputDto.getSpellText());
 		result.setTotalAmount(inputDto.getTotalAmount());
+		result.setCharacterSpell(characterSpell);
 		return result;
 	}
 	public static CharacterSpellDTO createEmptyDTO(long charcterId) {
@@ -55,12 +57,13 @@ public class CharacterSpellMapper {
                 .collect(Collectors.toList()));
 		return result;
 	}
-	public static CharacterSpell spellDtoToEntity(CharacterSpellDTO input) {
+	public static CharacterSpell spellDtoToEntity(CharacterSpellDTO input,Character character) {
 		CharacterSpell result = new CharacterSpell();
 		result.setId(input.getId());
 		result.setSpellBonusAttack(input.getSpellBonusAttack());
-		result.setSpells(input.getSpells().stream().map( characterSpell -> CharacterSpellMapper.dtoToEntity(characterSpell))
+		result.setSpells(input.getSpells().stream().map( characterSpell -> CharacterSpellMapper.dtoToEntity(characterSpell,result))
                 .collect(Collectors.toList()));
+		result.setCharacter(character);
 		return result;
 	}
 	private static CreatureSpellInfoDTO createEmptyCircleDTO(short spellCircle) {

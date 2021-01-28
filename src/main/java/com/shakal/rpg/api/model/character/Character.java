@@ -67,7 +67,7 @@ public class Character extends Creature implements Serializable{
             inverseJoinColumns =  @JoinColumn(name = "proeficiency_id", referencedColumnName = "id"))
     private List<Proeficiency> proeficiencies;
 	
-	@OneToOne(mappedBy = "character",fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "character",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private CharacterSpell spell;
 	
 

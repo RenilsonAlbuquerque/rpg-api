@@ -37,8 +37,9 @@ public class SpellService {
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
 		
 		if(character.getSpell() != null) {
+			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(character.getId());
 			return CharacterSpellMapper.spellEntityToDto(
-					this.characterSpellDAO.getCharacterSpellByCharacterId(character.getId())
+					spell
 					);
 		}else {
 			return CharacterSpellMapper.createEmptyDTO(character.getId());
@@ -47,14 +48,13 @@ public class SpellService {
 	
 	}
 	public boolean updateCreatureSpells(CharacterSpellDTO inputDto,long characterId) throws ResourceNotFoundException {
-		Optional<CharacterSpell> search = this.characterSpellDAO.findById(inputDto.getId());
+		Optional<CharacterSpell> search = this.characterSpellDAO.getCharacterSpellByCharacterIdAndId(characterId,inputDto.getId());
 		if(search.isPresent()) {
-			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto));
+			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,search.get().getCharacter()));
 		}else {
 			Character characterSearch = this.characterDao.findById(characterId)
 					.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
-			CharacterSpell characterSpell = CharacterSpellMapper.spellDtoToEntity(inputDto);
-			characterSpell.setCharacter(characterSearch);
+			CharacterSpell characterSpell = CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch);
 			characterSpell = this.characterSpellDAO.save(characterSpell);
 			
 			for(CharacterSpellCircle circle: characterSpell.getSpells()) {
