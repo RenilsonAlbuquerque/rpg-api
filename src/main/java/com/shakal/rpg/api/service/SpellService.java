@@ -65,18 +65,6 @@ public class SpellService {
 			this.characterSpellDAO.save(characterSpell);
 		}
 		
-		
-		
-		
-		
-		/*
-		List<CharacterSpellCircle> entitiesList = creaturesInputDTO.stream().map( characterSpell -> CharacterSpellMapper.dtoToEntity(characterSpell))
-                .collect(Collectors.toList());
-		
-		for(CharacterSpellCircle entity: entitiesList) {
-			this.characterSpellCircleDAO.save(entity);
-		}
-		*/
 		return true;
 	}
 	

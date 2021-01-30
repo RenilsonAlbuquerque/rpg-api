@@ -70,6 +70,9 @@ public class Character extends Creature implements Serializable{
 	@OneToOne(mappedBy = "character",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private CharacterSpell spell;
 	
+	@OneToOne(mappedBy = "character",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private CharacterTrait trait;
+	
 
 	public String getName() {
 		return name;
@@ -191,6 +194,14 @@ public class Character extends Creature implements Serializable{
 
 	public void setSpell(CharacterSpell spell) {
 		this.spell = spell;
+	}
+
+	public CharacterTrait getTrait() {
+		return trait;
+	}
+
+	public void setTrait(CharacterTrait trait) {
+		this.trait = trait;
 	}
 	
 	
