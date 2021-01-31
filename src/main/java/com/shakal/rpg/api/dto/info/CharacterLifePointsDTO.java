@@ -5,6 +5,8 @@ public class CharacterLifePointsDTO {
 	private int totalLifePoints;
 	private int currentLifePoints;
 	private String hitDice;
+	private int temporaryLifePoints;
+	
 	public int getTotalLifePoints() {
 		return totalLifePoints;
 	}
@@ -22,6 +24,12 @@ public class CharacterLifePointsDTO {
 	}
 	public void setHitDice(String hitDice) {
 		this.hitDice = hitDice;
+	}
+	public int getTemporaryLifePoints() {
+		return temporaryLifePoints;
+	}
+	public void setTemporaryLifePoints(int temporaryLifePoints) {
+		this.temporaryLifePoints = temporaryLifePoints;
 	}
 	
 	

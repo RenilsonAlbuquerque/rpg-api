@@ -49,6 +49,10 @@ public class CharacterController {
     public ResponseEntity<CharacterSheetDTO> getCharacterSheet(@PathVariable Long id) throws ResourceNotFoundException{
 		return new ResponseEntity<CharacterSheetDTO>(this.characterService.getCharacterSheet(id), HttpStatus.OK);
     }
+	@PostMapping(value="/sheet",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> updateCharacterSheet(@RequestBody CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException{
+		return new ResponseEntity<Boolean>(this.characterService.updateCharacterSheet(sheetInputDto), HttpStatus.OK);
+    }
 	@PostMapping(value="/user-story",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CharacterGeneralInfoDTO> getCharacterSheetOnStory(@RequestBody UserSheetFIlterDTO filterDto) throws ResourceNotFoundException{
 		return new ResponseEntity<CharacterGeneralInfoDTO>(this.characterService.getCharacterSheetByUserInStory(filterDto), HttpStatus.OK);

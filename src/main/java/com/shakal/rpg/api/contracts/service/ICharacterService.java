@@ -15,4 +15,5 @@ public interface ICharacterService {
 	CharacterGeneralInfoDTO getCharacterSheetByUserInStory(UserSheetFIlterDTO filter) throws ResourceNotFoundException;
 	CharacterCreateInputDTO getCharacterCreationMetadata();
 	CharacterSheetDTO getCharacterSheet(Long id) throws ResourceNotFoundException;
+	boolean updateCharacterSheet(CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException;
 }

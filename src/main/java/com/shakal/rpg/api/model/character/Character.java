@@ -49,6 +49,26 @@ public class Character extends Creature implements Serializable{
 	
 	private int lifePoints;
 	
+	private int totalLifePoints;
+	
+	private int temporaryLifePoints;
+	
+	public int getTotalLifePoints() {
+		return totalLifePoints;
+	}
+
+	public void setTotalLifePoints(int totalLifePoints) {
+		this.totalLifePoints = totalLifePoints;
+	}
+
+	public int getTemporaryLifePoints() {
+		return temporaryLifePoints;
+	}
+
+	public void setTemporaryLifePoints(int temporaryLifePoints) {
+		this.temporaryLifePoints = temporaryLifePoints;
+	}
+
 	private int experiencyPoints;
 	
 	@OneToMany(mappedBy = "character",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

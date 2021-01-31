@@ -1,5 +1,6 @@
 package com.shakal.rpg.api.mappers;
 
+
 import java.util.stream.Collectors;
 
 import com.shakal.rpg.api.dto.commons.KeyValueDTO;
@@ -70,10 +71,22 @@ public class CharacterMapper {
 	}
 	public static CharacterLifePointsDTO mapLevelToDTO(Character entity) {
 		CharacterLifePointsDTO result = new CharacterLifePointsDTO();
-		result.setTotalLifePoints(entity.getLifePoints());
+		result.setTotalLifePoints(entity.getTotalLifePoints());
 		result.setCurrentLifePoints(entity.getLifePoints());
+		result.setTemporaryLifePoints(entity.getTemporaryLifePoints());
 		result.setHitDice("2d20");
 		return result;
+	}
+	
+	public static Character mapDtoToEntity(Character character, CharacterSheetDTO characterInputDto) {
+		character.setArmorClass(characterInputDto.getArmorClass());
+		character.setSpeed(characterInputDto.getSpeed());
+		character.setLifePoints(characterInputDto.getLifePoints().getCurrentLifePoints());
+		character.setTotalLifePoints(characterInputDto.getLifePoints().getTotalLifePoints());
+		character.setTemporaryLifePoints(characterInputDto.getLifePoints().getTemporaryLifePoints());
+		character.setExperiencyPoints(characterInputDto.getExperiencyPoints());
+		character.setAtributes(CreatureAtributeMapper.mapAtributesDtoToEntity(character.getAtributes(), characterInputDto));
+		return character;
 	}
 	
 	

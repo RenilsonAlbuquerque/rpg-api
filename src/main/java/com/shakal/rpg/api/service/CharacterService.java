@@ -1,9 +1,5 @@
 package com.shakal.rpg.api.service;
 
-import java.awt.Dimension;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +24,6 @@ import com.shakal.rpg.api.filedata.service.ExternalCreatureProfileImageService;
 import com.shakal.rpg.api.helpers.AtributeHelper;
 import com.shakal.rpg.api.helpers.CharacterHelper;
 import com.shakal.rpg.api.helpers.CombatHelper;
-import com.shakal.rpg.api.helpers.FileHelper;
 import com.shakal.rpg.api.mappers.CharacterMapper;
 import com.shakal.rpg.api.mappers.ClassMapper;
 import com.shakal.rpg.api.mappers.CreatureMapper;
@@ -54,7 +49,6 @@ import com.shakal.rpg.api.model.Atribute;
 import com.shakal.rpg.api.model.Race;
 import com.shakal.rpg.api.model.character.Class;
 import com.shakal.rpg.api.model.character.ClassLevel;
-import com.shakal.rpg.api.model.creature.Proeficiency;
 import com.shakal.rpg.api.model.embedded.CreatureAtributeId;
 import com.shakal.rpg.api.model.character.Character;
 import com.shakal.rpg.api.model.character.CharacterRaceAtributeBonus;
@@ -344,6 +338,15 @@ public class CharacterService implements ICharacterService{
 		charisma.setId(charismaId);
 		this.creatureAtributeDao.save(charisma);
 		
+	}
+
+	@Override
+	public boolean updateCharacterSheet(CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException {
+		Character search = this.characterDao.findById(sheetInputDto.getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		
+		this.characterDao.save(CharacterMapper.mapDtoToEntity(search, sheetInputDto));
+		return true;
 	}
 	
 }
