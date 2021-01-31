@@ -30,7 +30,7 @@ public class TraitService {
 	public CharcterTraitDTO getTraitsOfCharacter(long id) throws ResourceNotFoundException {
 		Character character = this.characterDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
-		
+		/*
 		if(character.getTrait() != null) {
 			return CharacterTraitMapper.entityToDTO(
 					character.getTrait()
@@ -38,6 +38,18 @@ public class TraitService {
 		}else {
 			return CharacterTraitMapper.createEmptyDto();
 		}
+		*/
+		
+		Optional<CharacterTrait> trait = this.traitDao.getCharacterTraitByCharacterId(id);
+		
+		if(trait.isPresent()) {
+			return CharacterTraitMapper.entityToDTO(
+					trait.get()
+					);
+		}else {
+			return CharacterTraitMapper.createEmptyDto();
+		}
+		//return CharacterTraitMapper.createEmptyDto();
 	}
 	public boolean updateCreatureTraits(CharcterTraitDTO inputDto,long characterId) throws ResourceNotFoundException {
 		Optional<CharacterTrait> search = this.traitDao.getCharacterTraitByCharacterIdAndId(characterId,inputDto.getId());

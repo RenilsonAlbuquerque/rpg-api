@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.contracts.service.ICombatService;
@@ -340,6 +341,7 @@ public class CharacterService implements ICharacterService{
 		
 	}
 
+	@Transactional
 	@Override
 	public boolean updateCharacterSheet(CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException {
 		Character search = this.characterDao.findById(sheetInputDto.getId())

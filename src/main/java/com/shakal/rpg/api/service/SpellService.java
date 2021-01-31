@@ -33,9 +33,12 @@ public class SpellService {
 	}
 	
 	public CharacterSpellDTO getSpellsOfCharacter(long id) throws ResourceNotFoundException {
+		/*
 		Character character = this.characterDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		*/
 		
+		/*
 		if(character.getSpell() != null) {
 			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(character.getId());
 			return CharacterSpellMapper.spellEntityToDto(
@@ -44,23 +47,37 @@ public class SpellService {
 		}else {
 			return CharacterSpellMapper.createEmptyDTO(character.getId());
 		}
+		*/
+		CharacterSpell characterSpellSearch = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
+		if(characterSpellSearch != null) {
+			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
+			return CharacterSpellMapper.spellEntityToDto(
+					spell
+					);
+		}else {
+			return CharacterSpellMapper.createEmptyDTO(id);
+		}
 		
 	
 	}
 	public boolean updateCreatureSpells(CharacterSpellDTO inputDto,long characterId) throws ResourceNotFoundException {
-		Optional<CharacterSpell> search = this.characterSpellDAO.getCharacterSpellByCharacterIdAndId(characterId,inputDto.getId());
-		if(search.isPresent()) {
-			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,search.get().getCharacter()));
+		Character characterSearch = this.characterDao.findById(characterId)
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		CharacterSpell search2 = this.characterSpellDAO.getCharacterSpellByCharacterId(characterId);
+		
+		if(search2 != null) {
+			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch));
 		}else {
-			Character characterSearch = this.characterDao.findById(characterId)
-					.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+			
 			CharacterSpell characterSpell = CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch);
+			/*
 			characterSpell = this.characterSpellDAO.save(characterSpell);
 			
 			for(CharacterSpellCircle circle: characterSpell.getSpells()) {
 				circle.setCharacterSpell(characterSpell);
 				this.characterSpellCircleDAO.save(circle);
 			}
+			*/
 		
 			this.characterSpellDAO.save(characterSpell);
 		}

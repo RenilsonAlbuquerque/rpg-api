@@ -53,22 +53,6 @@ public class Character extends Creature implements Serializable{
 	
 	private int temporaryLifePoints;
 	
-	public int getTotalLifePoints() {
-		return totalLifePoints;
-	}
-
-	public void setTotalLifePoints(int totalLifePoints) {
-		this.totalLifePoints = totalLifePoints;
-	}
-
-	public int getTemporaryLifePoints() {
-		return temporaryLifePoints;
-	}
-
-	public void setTemporaryLifePoints(int temporaryLifePoints) {
-		this.temporaryLifePoints = temporaryLifePoints;
-	}
-
 	private int experiencyPoints;
 	
 	@OneToMany(mappedBy = "character",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -87,12 +71,14 @@ public class Character extends Creature implements Serializable{
             inverseJoinColumns =  @JoinColumn(name = "proeficiency_id", referencedColumnName = "id"))
     private List<Proeficiency> proeficiencies;
 	
-	@OneToOne(mappedBy = "character",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	/*
+	@OneToOne(mappedBy = "character",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private CharacterSpell spell;
-	
-	@OneToOne(mappedBy = "character",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	*/
+	/*
+	@OneToOne(mappedBy = "character", cascade = CascadeType.ALL)
 	private CharacterTrait trait;
-	
+	*/
 
 	public String getName() {
 		return name;
@@ -207,7 +193,7 @@ public class Character extends Creature implements Serializable{
 	public void setExperiencyPoints(int experiencyPoints) {
 		this.experiencyPoints = experiencyPoints;
 	}
-
+	/*
 	public CharacterSpell getSpell() {
 		return spell;
 	}
@@ -215,7 +201,8 @@ public class Character extends Creature implements Serializable{
 	public void setSpell(CharacterSpell spell) {
 		this.spell = spell;
 	}
-
+	*/
+	/*
 	public CharacterTrait getTrait() {
 		return trait;
 	}
@@ -223,7 +210,22 @@ public class Character extends Creature implements Serializable{
 	public void setTrait(CharacterTrait trait) {
 		this.trait = trait;
 	}
-	
+	*/
+	public int getTotalLifePoints() {
+		return totalLifePoints;
+	}
+
+	public void setTotalLifePoints(int totalLifePoints) {
+		this.totalLifePoints = totalLifePoints;
+	}
+
+	public int getTemporaryLifePoints() {
+		return temporaryLifePoints;
+	}
+
+	public void setTemporaryLifePoints(int temporaryLifePoints) {
+		this.temporaryLifePoints = temporaryLifePoints;
+	}
 	
 	
 

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.shakal.rpg.api.model.character.Character;
 
 @Entity
 @Table(name= "tb_character_trait")
@@ -16,7 +17,7 @@ public class CharacterTrait {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	@Column(length = 400)
 	private String personality;
 	@Column(length = 400)
@@ -29,15 +30,15 @@ public class CharacterTrait {
 	@Column(length = 3000)
 	private String featuresFeatsEquipmentsNotes;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(targetEntity = Character.class)
 	@JoinColumn(name ="character_id")
 	private Character character;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

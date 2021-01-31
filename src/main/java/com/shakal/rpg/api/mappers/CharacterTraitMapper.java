@@ -29,7 +29,6 @@ public class CharacterTraitMapper {
 	}
 	public static CharacterTrait dtoToEntity(CharcterTraitDTO inputDto,Character character) {
 		CharacterTrait result = new CharacterTrait();
-		result.setId(character.getId());
 		result.setId(inputDto.getId());
 		result.setPersonality(inputDto.getPersonality());
 		result.setIdeals(inputDto.getIdeals());

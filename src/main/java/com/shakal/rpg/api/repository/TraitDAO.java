@@ -11,4 +11,7 @@ public interface TraitDAO  extends JpaRepository<CharacterTrait,Long>{
 
 	@Query("SELECT ct FROM CharacterTrait ct FETCH ALL PROPERTIES where ct.character.id = ?1 and ct.id = ?2")
 	Optional<CharacterTrait> getCharacterTraitByCharacterIdAndId(long characterId, long spellId);
+	
+	@Query("SELECT ct FROM CharacterTrait ct FETCH ALL PROPERTIES where ct.character.id = ?1")
+	Optional<CharacterTrait> getCharacterTraitByCharacterId(long characterId);
 }
