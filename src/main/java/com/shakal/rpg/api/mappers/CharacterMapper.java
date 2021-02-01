@@ -82,7 +82,11 @@ public class CharacterMapper {
 		character.setArmorClass(characterInputDto.getArmorClass());
 		character.setSpeed(characterInputDto.getSpeed());
 		character.setLifePoints(characterInputDto.getLifePoints().getCurrentLifePoints());
-		character.setTotalLifePoints(characterInputDto.getLifePoints().getTotalLifePoints());
+		if(characterInputDto.getLifePoints().getTotalLifePoints() <= 0) {
+			character.setTotalLifePoints(1);
+		}else {
+			character.setTotalLifePoints(characterInputDto.getLifePoints().getTotalLifePoints());
+		}
 		character.setTemporaryLifePoints(characterInputDto.getLifePoints().getTemporaryLifePoints());
 		character.setExperiencyPoints(characterInputDto.getExperiencyPoints());
 		character.setAtributes(CreatureAtributeMapper.mapAtributesDtoToEntity(character.getAtributes(), characterInputDto));

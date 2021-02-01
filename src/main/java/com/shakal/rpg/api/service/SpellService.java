@@ -1,7 +1,6 @@
 package com.shakal.rpg.api.service;
 
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,7 @@ import com.shakal.rpg.api.exception.ResourceNotFoundException;
 import com.shakal.rpg.api.mappers.CharacterSpellMapper;
 import com.shakal.rpg.api.model.character.Character;
 import com.shakal.rpg.api.model.character.CharacterSpell;
-import com.shakal.rpg.api.model.character.CharacterSpellCircle;
 import com.shakal.rpg.api.repository.CharacterDAO;
-import com.shakal.rpg.api.repository.CharacterSpellCircleDAO;
 import com.shakal.rpg.api.repository.CharacterSpellDAO;
 import com.shakal.rpg.api.utils.Messages;
 
@@ -21,39 +18,21 @@ import com.shakal.rpg.api.utils.Messages;
 public class SpellService {
 	
 	private CharacterDAO characterDao;
-	private CharacterSpellCircleDAO characterSpellCircleDAO;
 	private CharacterSpellDAO characterSpellDAO;
 	
 	@Autowired
-	public SpellService(CharacterSpellCircleDAO characterSpellCircleDAO,CharacterDAO characterDao,
+	public SpellService(CharacterDAO characterDao,
 			CharacterSpellDAO characterSpellDAO) {
-		this.characterSpellCircleDAO = characterSpellCircleDAO;
 		this.characterDao = characterDao;
 		this.characterSpellDAO = characterSpellDAO;
 	}
 	
 	public CharacterSpellDTO getSpellsOfCharacter(long id) throws ResourceNotFoundException {
-		/*
-		Character character = this.characterDao.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
-		*/
 		
-		/*
-		if(character.getSpell() != null) {
-			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(character.getId());
-			return CharacterSpellMapper.spellEntityToDto(
-					spell
-					);
-		}else {
-			return CharacterSpellMapper.createEmptyDTO(character.getId());
-		}
-		*/
 		CharacterSpell characterSpellSearch = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
 		if(characterSpellSearch != null) {
 			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
-			return CharacterSpellMapper.spellEntityToDto(
-					spell
-					);
+			return CharacterSpellMapper.spellEntityToDto(spell);
 		}else {
 			return CharacterSpellMapper.createEmptyDTO(id);
 		}
@@ -68,18 +47,7 @@ public class SpellService {
 		if(search2 != null) {
 			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch));
 		}else {
-			
-			CharacterSpell characterSpell = CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch);
-			/*
-			characterSpell = this.characterSpellDAO.save(characterSpell);
-			
-			for(CharacterSpellCircle circle: characterSpell.getSpells()) {
-				circle.setCharacterSpell(characterSpell);
-				this.characterSpellCircleDAO.save(circle);
-			}
-			*/
-		
-			this.characterSpellDAO.save(characterSpell);
+			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch));
 		}
 		
 		return true;

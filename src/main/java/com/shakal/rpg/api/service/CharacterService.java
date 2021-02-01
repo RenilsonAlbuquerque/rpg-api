@@ -127,7 +127,9 @@ public class CharacterService implements ICharacterService{
 		entity.setAge(inputDto.getAge());
 		entity.setHeight(inputDto.getHeight());
 		entity.setAlignment(alignmentSearch.get());
+		entity.setTotalLifePoints(CharacterHelper.calculateLifePoints(classSearch.get().getLifeDice()));
 		entity.setLifePoints(CharacterHelper.calculateLifePoints(classSearch.get().getLifeDice()));
+		entity.setTemporaryLifePoints(0);
 		entity.setSpeed(raceSearch.get().getSpeed());
 		entity.setRace(raceSearch.get());
 		entity.setLanguages(raceSearch.get().getLangauges().stream()
