@@ -33,7 +33,7 @@ public class WeaponDice {
 	private Dice dice;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-	@MapsId("damage_type_Id")
+	@JoinColumn(name ="damage_type_Id", referencedColumnName = "id")
 	private DamageType damageType;
 	
 	private int quantity;

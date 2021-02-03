@@ -15,7 +15,7 @@ public abstract class WeaponMapper {
 		WeaponOverviewDTO result = new WeaponOverviewDTO();
 		result.setId(entity.getId());
 		result.setName(entity.getName());
-		result.setCategory(new KeyValueDTO(entity.getCategory().getId(),entity.getCategory().getName()));
+		//result.setCategory(new KeyValueDTO(entity.getCategory().getId(),entity.getCategory().getName()));
 		result.setClassification(new KeyValueDTO(entity.getClassification().getId(),entity.getClassification().getName()));
 		result.setRange(new KeyValueDTO(entity.getRange().getId(),entity.getRange().getName()));
 		return result;
@@ -25,7 +25,7 @@ public abstract class WeaponMapper {
 		result.setId(entity.getId());
 		result.setName(entity.getName());
 		result.setDescription(entity.getDescription());
-		result.setCategory(new KeyValueDTO(entity.getCategory().getId(),entity.getCategory().getName()));
+		//result.setCategory(new KeyValueDTO(entity.getCategory().getId(),entity.getCategory().getName()));
 		result.setClassification(new KeyValueDTO(entity.getClassification().getId(),entity.getClassification().getName()));
 		result.setRange(new KeyValueDTO(entity.getRange().getId(),entity.getRange().getName()));
 		result.setWeight(entity.getWeight());

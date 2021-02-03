@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shakal.rpg.api.contracts.service.IWeaponService;
+import com.shakal.rpg.api.dto.create.WeaponCreateDTO;
 import com.shakal.rpg.api.dto.filter.CustomPage;
 import com.shakal.rpg.api.dto.filter.PaginationFilter;
 import com.shakal.rpg.api.dto.info.WeaponInfoDTO;
@@ -41,5 +42,11 @@ public class WeaponController {
     public ResponseEntity<WeaponInfoDTO> getCharacterSheet(@PathVariable Long id) throws ResourceNotFoundException{
 		return new ResponseEntity<WeaponInfoDTO>(this.weaponService.getWeaponDetail(id), HttpStatus.OK);
     }
+	
+	@PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<WeaponCreateDTO> createWeapon(@RequestBody WeaponCreateDTO inputDTO) throws ResourceNotFoundException{
+	    	
+	    	 return new ResponseEntity<WeaponCreateDTO>(weaponService.createWeapon(inputDTO), HttpStatus.OK);
+	}
 
 }

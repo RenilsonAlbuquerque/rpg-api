@@ -15,10 +15,10 @@ import com.shakal.rpg.api.model.equipament.EquipamentCategory;
 @Table(name= "tb_weapon_category")
 @PrimaryKeyJoinColumn(name = "id")
 public class WeaponCategory extends EquipamentCategory {
-
+	/*
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Weapon.class)
 	private List<Weapon> weapon;
-
+	
 	public List<Weapon> getWeapon() {
 		return weapon;
 	}
@@ -27,5 +27,5 @@ public class WeaponCategory extends EquipamentCategory {
 		this.weapon = weapon;
 	}
 	
-	
+	*/
 }
