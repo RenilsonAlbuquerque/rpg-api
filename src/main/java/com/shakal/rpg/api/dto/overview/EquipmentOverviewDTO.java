@@ -1,11 +1,14 @@
 package com.shakal.rpg.api.dto.overview;
 
+import com.shakal.rpg.api.dto.commons.KeyValueDTO;
+
 public class EquipmentOverviewDTO {
 
 	private int id;
 	private String name;
 	private double weight;
 	private String cost;
+	private KeyValueDTO equipmentCategory;
 	
 	public int getId() {
 		return id;
@@ -31,6 +34,13 @@ public class EquipmentOverviewDTO {
 	public void setCost(String cost) {
 		this.cost = cost;
 	}
+	public KeyValueDTO getEquipmentCategory() {
+		return equipmentCategory;
+	}
+	public void setEquipmentCategory(KeyValueDTO equipmentCategory) {
+		this.equipmentCategory = equipmentCategory;
+	}
+	
 	
 	
 }

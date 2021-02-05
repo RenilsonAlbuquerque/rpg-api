@@ -14,19 +14,20 @@ import com.shakal.rpg.api.dto.create.EquipmentCreateInputDTO;
 import com.shakal.rpg.api.dto.filter.CustomPage;
 import com.shakal.rpg.api.dto.filter.PaginationFilter;
 import com.shakal.rpg.api.dto.overview.EquipmentOverviewDTO;
-import com.shakal.rpg.api.dto.overview.WeaponOverviewDTO;
+import com.shakal.rpg.api.mappers.ArmorMapper;
+import com.shakal.rpg.api.mappers.AtributeMapper;
 import com.shakal.rpg.api.mappers.DamageMapper;
 import com.shakal.rpg.api.mappers.DiceMapper;
 import com.shakal.rpg.api.mappers.EconomyMapper;
 import com.shakal.rpg.api.mappers.EquipmentMapper;
 import com.shakal.rpg.api.mappers.RarityMapper;
 import com.shakal.rpg.api.mappers.WeaponClassificationMapper;
-import com.shakal.rpg.api.mappers.WeaponMapper;
 import com.shakal.rpg.api.mappers.WeaponPropertyMapper;
 import com.shakal.rpg.api.mappers.WeaponRangeMapper;
-import com.shakal.rpg.api.model.Story;
 import com.shakal.rpg.api.model.enums.EquipmentTypeEnum;
 import com.shakal.rpg.api.model.equipament.Equipament;
+import com.shakal.rpg.api.repository.ArmorCategoryDAO;
+import com.shakal.rpg.api.repository.AtributeDAO;
 import com.shakal.rpg.api.repository.CoinDAO;
 import com.shakal.rpg.api.repository.DamageTypeDAO;
 import com.shakal.rpg.api.repository.DiceDAO;
@@ -48,11 +49,14 @@ public class EquipmentService implements IEquipmentService {
 	private WeaponPropertyDAO weaponPropertyDAO;
 	private DiceDAO diceDao;
 	private DamageTypeDAO damageTypeDao;
+	private ArmorCategoryDAO armorCategoryDAO;
+	private AtributeDAO atributeDAO;
 
 	@Autowired
 	public EquipmentService(CoinDAO coinDAO,RarityDAO rarityDAO,WeaponRangeDAO weaponRangeDAO,
 			WeaponClassificationDAO weaponClassificationDAO,WeaponPropertyDAO weaponPropertyDAO,
-			DiceDAO diceDao,DamageTypeDAO damageTypeDao,EquipmentDAO equipmentDAO) {
+			DiceDAO diceDao,DamageTypeDAO damageTypeDao,EquipmentDAO equipmentDAO,
+			ArmorCategoryDAO armorCategoryDAO,AtributeDAO atributeDAO) {
 		this.diceDao = diceDao;
 		this.damageTypeDao = damageTypeDao;
 		this.coinDAO = coinDAO;
@@ -61,6 +65,8 @@ public class EquipmentService implements IEquipmentService {
 		this.weaponClassificationDAO = weaponClassificationDAO;
 		this.weaponPropertyDAO = weaponPropertyDAO;
 		this.equipmentDAO = equipmentDAO;
+		this.armorCategoryDAO = armorCategoryDAO;
+		this.atributeDAO = atributeDAO;
 	}
 	
 	@Override
@@ -83,6 +89,10 @@ public class EquipmentService implements IEquipmentService {
 				.map(weaponRange -> WeaponRangeMapper.entityToDTO(weaponRange)).collect(Collectors.toList()));
 		result.setWeaponProperties(this.weaponPropertyDAO.findAll().stream()
 				.map(weaponProperty -> WeaponPropertyMapper.entityToDTO(weaponProperty)).collect(Collectors.toList()));
+		result.setArmorCategories(this.armorCategoryDAO.findAll().stream()
+				.map(armorCategory -> ArmorMapper.categoryEntityToDTO(armorCategory)).collect(Collectors.toList()));
+		result.setAtributes(this.atributeDAO.findAll().stream()
+				.map(atribute -> AtributeMapper.atributeToEntityDTO(atribute)).collect(Collectors.toList()));
 		return result;
 	}
 

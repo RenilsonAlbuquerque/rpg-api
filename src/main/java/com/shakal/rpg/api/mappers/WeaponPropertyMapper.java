@@ -1,7 +1,7 @@
 package com.shakal.rpg.api.mappers;
 
 import com.shakal.rpg.api.dto.commons.KeyValueDTO;
-import com.shakal.rpg.api.model.weapon.WeaponProperty;
+import com.shakal.rpg.api.model.equipament.weapon.WeaponProperty;
 
 public class WeaponPropertyMapper {
 

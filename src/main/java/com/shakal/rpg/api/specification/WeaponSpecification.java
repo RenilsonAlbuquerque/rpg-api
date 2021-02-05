@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.shakal.rpg.api.model.weapon.Weapon;
+import com.shakal.rpg.api.model.equipament.weapon.Weapon;
 
 public class WeaponSpecification {
 	

@@ -4,6 +4,9 @@ import com.shakal.rpg.api.dto.commons.KeyValueDTO;
 import com.shakal.rpg.api.dto.overview.EquipmentOverviewDTO;
 import com.shakal.rpg.api.model.enums.EquipmentTypeEnum;
 import com.shakal.rpg.api.model.equipament.Equipament;
+import com.shakal.rpg.api.model.equipament.adventuregear.AdventureGear;
+import com.shakal.rpg.api.model.equipament.armor.Armor;
+import com.shakal.rpg.api.model.equipament.weapon.Weapon;
 
 public class EquipmentMapper {
 
@@ -32,6 +35,23 @@ public class EquipmentMapper {
 		result.setName(entity.getName());
 		result.setWeight(entity.getWeight());
 		result.setCost(entity.getPrice().getQuantity() + entity.getPrice().getCoin().getAbreviation());
+		result.setEquipmentCategory(mapInstanceOfEquipment(entity));
+		return result;
+	}
+	private static KeyValueDTO mapInstanceOfEquipment(Equipament entity) {
+		KeyValueDTO result = new KeyValueDTO();
+		if(entity instanceof Weapon) {
+			result.setId(EquipmentTypeEnum.WEAPON.getValue());
+			result.setValue("Arma");
+		}
+		if(entity instanceof Armor) {
+			result.setId(EquipmentTypeEnum.ARMOR.getValue());
+			result.setValue("Armadura");
+		}
+		if(entity instanceof AdventureGear) {
+			result.setId(EquipmentTypeEnum.TOOL.getValue());
+			result.setValue("Ferramenta");
+		}
 		return result;
 	}
 }

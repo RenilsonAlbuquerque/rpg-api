@@ -7,7 +7,7 @@ import com.shakal.rpg.api.dto.info.DamageInfoDTO;
 import com.shakal.rpg.api.dto.info.WeaponInfoDTO;
 import com.shakal.rpg.api.dto.overview.WeaponOverviewDTO;
 import com.shakal.rpg.api.model.relation.WeaponDice;
-import com.shakal.rpg.api.model.weapon.Weapon;
+import com.shakal.rpg.api.model.equipament.weapon.Weapon;
 
 public abstract class WeaponMapper {
 

@@ -15,6 +15,8 @@ public class EquipmentCreateInputDTO {
 	private List<KeyValueDTO> weaponProperties;
 	private List<KeyValueDTO> dices;
 	private List<KeyValueDTO> damageType;
+	private List<KeyValueDTO> armorCategories;
+	private List<KeyValueDTO> atributes;
 	
 	public List<CoinInfoDTO> getCoins() {
 		return coins;
@@ -65,6 +67,19 @@ public class EquipmentCreateInputDTO {
 	public void setDamageType(List<KeyValueDTO> damageType) {
 		this.damageType = damageType;
 	}
+	public List<KeyValueDTO> getArmorCategories() {
+		return armorCategories;
+	}
+	public void setArmorCategories(List<KeyValueDTO> armorCategories) {
+		this.armorCategories = armorCategories;
+	}
+	public List<KeyValueDTO> getAtributes() {
+		return atributes;
+	}
+	public void setAtributes(List<KeyValueDTO> atributes) {
+		this.atributes = atributes;
+	}
+	
 	
 	
 	

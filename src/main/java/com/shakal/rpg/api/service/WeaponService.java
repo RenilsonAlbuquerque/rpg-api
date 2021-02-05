@@ -1,6 +1,5 @@
 package com.shakal.rpg.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,22 +20,16 @@ import com.shakal.rpg.api.dto.info.WeaponInfoDTO;
 import com.shakal.rpg.api.dto.overview.WeaponOverviewDTO;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 import com.shakal.rpg.api.mappers.WeaponMapper;
-import com.shakal.rpg.api.model.Alignment;
-import com.shakal.rpg.api.model.CreatureLevel;
 import com.shakal.rpg.api.model.DamageType;
 import com.shakal.rpg.api.model.Dice;
-import com.shakal.rpg.api.model.Monster;
-import com.shakal.rpg.api.model.MonsterType;
-import com.shakal.rpg.api.model.creature.CreatureSize;
 import com.shakal.rpg.api.model.economy.Coin;
 import com.shakal.rpg.api.model.economy.Cost;
 import com.shakal.rpg.api.model.embedded.WeaponDiceId;
 import com.shakal.rpg.api.model.equipament.Rarity;
 import com.shakal.rpg.api.model.relation.WeaponDice;
-import com.shakal.rpg.api.model.weapon.Weapon;
-import com.shakal.rpg.api.model.weapon.WeaponCategory;
-import com.shakal.rpg.api.model.weapon.WeaponClassification;
-import com.shakal.rpg.api.model.weapon.WeaponRange;
+import com.shakal.rpg.api.model.equipament.weapon.Weapon;
+import com.shakal.rpg.api.model.equipament.weapon.WeaponClassification;
+import com.shakal.rpg.api.model.equipament.weapon.WeaponRange;
 import com.shakal.rpg.api.repository.CoinDAO;
 import com.shakal.rpg.api.repository.DamageTypeDAO;
 import com.shakal.rpg.api.repository.DiceDAO;

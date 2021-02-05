@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.shakal.rpg.api.model.DamageType;
 import com.shakal.rpg.api.model.Dice;
 import com.shakal.rpg.api.model.embedded.WeaponDiceId;
-import com.shakal.rpg.api.model.weapon.Weapon;
+import com.shakal.rpg.api.model.equipament.weapon.Weapon;
 
 @Entity
 @Table(name= "mtm_weapon_dice")

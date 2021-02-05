@@ -16,6 +16,7 @@ public class Messages {
     public static final String COMBAT_STATE_NOT_FOUND = "O combate nÃ£o existe";
     
     public static final String WEAPON_NOT_FOUND = "Arma nï¿½o encontrada";
+    public static final String ARMOR_NOT_FOUND = "armadura não encontrada";
     public static final String COIN_INVALID = "Moeda não encontrada";
     
     public static final String INVALID_MONSTER_TYPE = "O tipo do monstro nï¿½o ï¿½ vï¿½lido";
