@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shakal.rpg.api.contracts.service.IBagService;
 import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.dto.create.CharacterCreateDTO;
 import com.shakal.rpg.api.dto.create.CharacterCreateInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
+import com.shakal.rpg.api.dto.info.BagInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
 import com.shakal.rpg.api.dto.info.CharacterSpellDTO;
@@ -40,6 +42,9 @@ public class CharacterController {
 	
 	@Autowired
 	private TraitService traitService;
+	
+	@Autowired
+	private IBagService bagService;
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> createCharacter(@RequestBody CharacterCreateDTO createDto) throws BusinessException, FileManagementException{
@@ -78,4 +83,14 @@ public class CharacterController {
     public ResponseEntity<Boolean> updateCharacterTraits(@RequestBody CharcterTraitDTO inputDto,@PathVariable Long id) throws BusinessException, FileManagementException, ResourceNotFoundException{
 		return new ResponseEntity<Boolean>(this.traitService.updateCreatureTraits(inputDto,id), HttpStatus.OK);
     }
+	@GetMapping(value="/bag/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<BagInfoDTO> getCharacterBag(@PathVariable Long id) throws ResourceNotFoundException {
+		return new ResponseEntity<BagInfoDTO>(this.bagService.getBagOfCharacter(id), HttpStatus.OK);
+    }
+	
+	@PostMapping(value="/bag/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> updateCharacterBag(@RequestBody BagInfoDTO inputDto,@PathVariable Long id) throws BusinessException, FileManagementException, ResourceNotFoundException{
+		return new ResponseEntity<Boolean>(this.bagService.updateCreatureBag(inputDto,id), HttpStatus.OK);
+    }
+    
 }
