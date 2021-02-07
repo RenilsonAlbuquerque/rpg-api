@@ -43,6 +43,8 @@ public abstract class Equipament extends MainEntity implements IEquipament{
 	
 	private double weight;
 	
+	private boolean magic;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="rarity_Id")
 	private Rarity rarity;
@@ -142,6 +144,14 @@ public abstract class Equipament extends MainEntity implements IEquipament{
 	}
 
 
+
+	public boolean isMagic() {
+		return magic;
+	}
+
+	public void setMagic(boolean magic) {
+		this.magic = magic;
+	}
 
 	@Override
 	public Cost price() {
