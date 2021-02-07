@@ -3,8 +3,6 @@ package com.shakal.rpg.api.model.equipament.armor;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -19,9 +17,6 @@ import com.shakal.rpg.api.model.equipament.Equipament;
 @PrimaryKeyJoinColumn(name = "id")
 public class Armor extends Equipament  {
 	
-	@Id
-	@GeneratedValue
-	private Long id;
 	
 	private int acBonus;
 	
@@ -43,14 +38,6 @@ public class Armor extends Equipament  {
 
 	public void setAcBonus(int acBonus) {
 		this.acBonus = acBonus;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public ArmorAC getArmorClass() {

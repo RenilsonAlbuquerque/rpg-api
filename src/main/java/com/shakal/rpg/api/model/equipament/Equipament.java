@@ -30,6 +30,7 @@ public abstract class Equipament extends MainEntity implements IEquipament{
 	@GeneratedValue
 	private Long id;
 	
+	@Column(length = 500)
 	private String imagePath;
 	
 	private String name;
