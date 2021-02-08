@@ -31,7 +31,7 @@ public class ExternalMapImageService {
 	
 	public String retrieveMinimap(String fileId) throws ResourceNotFoundException {
 		
-		return this.externalFileStorage.retrieveMinimap(fileId, this.externalFileStorage.retrieveMinimap(fileId, this.externalFileStorage.getPath(PathEnum.MAP))); 
+		return this.externalFileStorage.retrieveMinimap(fileId, this.externalFileStorage.getPath(PathEnum.MAP)); 
 		
 	}
 	

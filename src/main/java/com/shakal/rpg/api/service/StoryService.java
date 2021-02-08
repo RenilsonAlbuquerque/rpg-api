@@ -18,10 +18,12 @@ import com.shakal.rpg.api.dto.create.StoryCreateDTO;
 import com.shakal.rpg.api.dto.create.StoryCreateInputDTO;
 import com.shakal.rpg.api.dto.filter.CustomPage;
 import com.shakal.rpg.api.dto.filter.PaginationFilter;
+import com.shakal.rpg.api.dto.info.PlaceInfoDTO;
 import com.shakal.rpg.api.dto.info.StoryInfoDTO;
 import com.shakal.rpg.api.dto.overview.StoryOverviewDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
+import com.shakal.rpg.api.filedata.service.ExternalMapImageService;
 import com.shakal.rpg.api.mappers.StoryMapper;
 import com.shakal.rpg.api.mappers.UserMapper;
 import com.shakal.rpg.api.model.Place;
@@ -49,15 +51,18 @@ public class StoryService implements IStoryService {
 	private UserDAO userDao;
 	private IUserService userService;
 	private UserStoryDAO userStoryDao;
+	private ExternalMapImageService externalMapImageService;
 	
 	@Autowired
 	public StoryService(StoryDAO storyRepository, UserDAO userDao,
-			UserStoryDAO userStoryDao,PlaceDAO placeDAO,IUserService userService) {
+			UserStoryDAO userStoryDao,PlaceDAO placeDAO,IUserService userService,
+			ExternalMapImageService externalMapImageService) {
 		this.storyRepository = storyRepository;
 		this.userDao = userDao;
 		this.userStoryDao = userStoryDao;
 		this.placeRepository = placeDAO;
 		this.userService = userService;
+		this.externalMapImageService = externalMapImageService;
 	}
 	
 	@Override
@@ -102,7 +107,12 @@ public class StoryService implements IStoryService {
 	public StoryInfoDTO getStoryById(long id) throws ResourceNotFoundException {
 		Story story = this.storyRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
-		return StoryMapper.entityToInfo(story);
+		StoryInfoDTO result = StoryMapper.entityToInfo(story);
+		for(PlaceInfoDTO place: result.getPlaces()) {
+			place.setMap(this.externalMapImageService.retrieveMinimap(
+					place.getMap()));
+		}
+		return result;
 	}
 
 	@Override
