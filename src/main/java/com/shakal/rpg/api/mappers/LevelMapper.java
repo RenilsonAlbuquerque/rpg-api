@@ -6,6 +6,12 @@ import com.shakal.rpg.api.model.CreatureLevel;
 
 public class LevelMapper {
 
+	public static KeyValueDTO entityToDTOCharacter(CreatureLevel entity) {
+		KeyValueDTO result = new KeyValueDTO();
+		result.setId(entity.getId());
+		result.setValue(((int)entity.getValue()) + " ("+ entity.getExperiencePoints()+ "XP) ");
+		return result;
+	}
 	public static KeyValueDTO entityToDTO(CreatureLevel entity) {
 		KeyValueDTO result = new KeyValueDTO();
 		result.setId(entity.getId());

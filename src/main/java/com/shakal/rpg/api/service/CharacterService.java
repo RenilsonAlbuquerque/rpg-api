@@ -14,6 +14,7 @@ import com.shakal.rpg.api.dto.combat.CardPositionDTO;
 import com.shakal.rpg.api.dto.combat.CreatureCardDTO;
 import com.shakal.rpg.api.dto.create.CharacterCreateDTO;
 import com.shakal.rpg.api.dto.create.CharacterCreateInputDTO;
+import com.shakal.rpg.api.dto.create.CharacterHeaderInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
@@ -29,6 +30,7 @@ import com.shakal.rpg.api.mappers.CharacterMapper;
 import com.shakal.rpg.api.mappers.ClassMapper;
 import com.shakal.rpg.api.mappers.CreatureMapper;
 import com.shakal.rpg.api.mappers.CreatureTokenMapper;
+import com.shakal.rpg.api.mappers.LevelMapper;
 import com.shakal.rpg.api.mappers.RaceMapper;
 import com.shakal.rpg.api.repository.AlignmentDAO;
 import com.shakal.rpg.api.repository.AtributeDAO;
@@ -37,6 +39,7 @@ import com.shakal.rpg.api.repository.CharacterDAO;
 import com.shakal.rpg.api.repository.ClassDAO;
 import com.shakal.rpg.api.repository.ClassLevelDAO;
 import com.shakal.rpg.api.repository.CreatureAtributeDAO;
+import com.shakal.rpg.api.repository.CreatureLevelDAO;
 import com.shakal.rpg.api.repository.ImageTokenDAO;
 import com.shakal.rpg.api.repository.LanguageDAO;
 import com.shakal.rpg.api.repository.ProeficiencyDAO;
@@ -74,6 +77,7 @@ public class CharacterService implements ICharacterService{
 	private LanguageDAO languageDao;
 	private ProeficiencyDAO proeficiencyDao;
 	private ExternalCreatureProfileImageService externalCreatureProfileImageService;
+	private CreatureLevelDAO levelDAO;
 	
 	@Autowired
 	public CharacterService(IUserService userService,
@@ -85,7 +89,8 @@ public class CharacterService implements ICharacterService{
 			ImageTokenDAO tokenDao,
 			AtributeDAO atributeDao,LanguageDAO languageDao,
 			ProeficiencyDAO proeficiencyDao,
-			ExternalCreatureProfileImageService externalCreatureProfileImageService) {
+			ExternalCreatureProfileImageService externalCreatureProfileImageService,
+			CreatureLevelDAO levelDAO) {
 		this.userService = userService;
 		this.characterDao = characterDao;
 		this.alignmentDao = alignmentDao;
@@ -100,6 +105,7 @@ public class CharacterService implements ICharacterService{
 		this.languageDao = languageDao;
 		this.proeficiencyDao = proeficiencyDao;
 		this.externalCreatureProfileImageService = externalCreatureProfileImageService;
+		this.levelDAO = levelDAO;
 	}
 	
 	@Override
@@ -351,6 +357,18 @@ public class CharacterService implements ICharacterService{
 		
 		this.characterDao.save(CharacterMapper.mapDtoToEntity(search, sheetInputDto));
 		return true;
+	}
+
+	@Override
+	public CharacterHeaderInputDTO getHeaderInput() {
+		CharacterHeaderInputDTO result = new CharacterHeaderInputDTO();
+		result.setClasses(this.classDao.findAll().stream()
+				.map(clas -> ClassMapper.mapEntityToCreateMetadataResumedDTO(clas))
+				.collect(Collectors.toList()));
+		result.setLevels(this.levelDAO.retrieveCharacterLevels().stream()
+				.map(clas -> LevelMapper.entityToDTOCharacter(clas))
+				.collect(Collectors.toList()));
+		return result;
 	}
 	
 }

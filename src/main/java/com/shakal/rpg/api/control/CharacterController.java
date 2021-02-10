@@ -17,6 +17,7 @@ import com.shakal.rpg.api.contracts.service.IBagService;
 import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.dto.create.CharacterCreateDTO;
 import com.shakal.rpg.api.dto.create.CharacterCreateInputDTO;
+import com.shakal.rpg.api.dto.create.CharacterHeaderInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.BagInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
@@ -50,6 +51,18 @@ public class CharacterController {
     public ResponseEntity<Boolean> createCharacter(@RequestBody CharacterCreateDTO createDto) throws BusinessException, FileManagementException{
 		return new ResponseEntity<Boolean>(this.characterService.createCharacterInStory(createDto), HttpStatus.OK);
     }
+	@GetMapping(value="/metadata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CharacterCreateInputDTO> getCharacterCreationMetadata(){
+		return new ResponseEntity<CharacterCreateInputDTO>(this.characterService.getCharacterCreationMetadata(), HttpStatus.OK);
+    }
+	@GetMapping(value="/header-metadata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CharacterHeaderInputDTO> getCharacterHeader() throws ResourceNotFoundException {
+		return new ResponseEntity<CharacterHeaderInputDTO>(this.characterService.getHeaderInput(), HttpStatus.OK);
+    }
+	@PostMapping(value="/user-story",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CharacterGeneralInfoDTO> getCharacterSheetOnStory(@RequestBody UserSheetFIlterDTO filterDto) throws ResourceNotFoundException{
+		return new ResponseEntity<CharacterGeneralInfoDTO>(this.characterService.getCharacterSheetByUserInStory(filterDto), HttpStatus.OK);
+    }
 	@GetMapping(value="/sheet/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CharacterSheetDTO> getCharacterSheet(@PathVariable Long id) throws ResourceNotFoundException{
 		return new ResponseEntity<CharacterSheetDTO>(this.characterService.getCharacterSheet(id), HttpStatus.OK);
@@ -57,14 +70,6 @@ public class CharacterController {
 	@PostMapping(value="/sheet",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> updateCharacterSheet(@RequestBody CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException{
 		return new ResponseEntity<Boolean>(this.characterService.updateCharacterSheet(sheetInputDto), HttpStatus.OK);
-    }
-	@PostMapping(value="/user-story",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<CharacterGeneralInfoDTO> getCharacterSheetOnStory(@RequestBody UserSheetFIlterDTO filterDto) throws ResourceNotFoundException{
-		return new ResponseEntity<CharacterGeneralInfoDTO>(this.characterService.getCharacterSheetByUserInStory(filterDto), HttpStatus.OK);
-    }
-	@GetMapping(value="/metadata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<CharacterCreateInputDTO> getCharacterCreationMetadata(){
-		return new ResponseEntity<CharacterCreateInputDTO>(this.characterService.getCharacterCreationMetadata(), HttpStatus.OK);
     }
 	@GetMapping(value="/spells/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CharacterSpellDTO> getCharacterSpells(@PathVariable Long id) throws ResourceNotFoundException {
@@ -92,5 +97,6 @@ public class CharacterController {
     public ResponseEntity<Boolean> updateCharacterBag(@RequestBody BagInfoDTO inputDto,@PathVariable Long id) throws BusinessException, FileManagementException, ResourceNotFoundException{
 		return new ResponseEntity<Boolean>(this.bagService.updateCreatureBag(inputDto,id), HttpStatus.OK);
     }
-    
+	
+	
 }
