@@ -9,8 +9,10 @@ import com.shakal.rpg.api.dto.create.ClassDetailInputDTO;
 import com.shakal.rpg.api.model.character.CharacterClassLevel;
 import com.shakal.rpg.api.model.character.Class;
 import com.shakal.rpg.api.model.character.ClassLevel;
+import com.shakal.rpg.api.model.CreatureLevel;
 import com.shakal.rpg.api.model.character.Character;
 import com.shakal.rpg.api.model.embedded.CharacterClassLevelId;
+import com.shakal.rpg.api.model.embedded.ClassLevelId;
 
 public abstract class ClassMapper {
 
@@ -49,5 +51,24 @@ public abstract class ClassMapper {
 		firstLevel.setId(identifier);
 		return firstLevel;
 		
+	}
+	public static CharacterClassLevel mapUpdateClassLevel(Character character,CreatureLevel level,Class clasS) {
+		ClassLevelId classLevelId = new ClassLevelId(clasS.getId(),level.getId());
+		ClassLevel classLevel = new ClassLevel();
+		classLevel.setClasS(clasS);
+		classLevel.setLevel(level);
+		classLevel.setId(classLevelId);
+		
+		
+		CharacterClassLevelId characterClassLevelId = new CharacterClassLevelId();
+		characterClassLevelId.setCharacterId(character.getId());
+		characterClassLevelId.setClassId(clasS.getId());
+		characterClassLevelId.setLevelId(level.getId());
+		
+		CharacterClassLevel characterClassLevel = new CharacterClassLevel();
+		characterClassLevel.setCharacter(character);
+		characterClassLevel.setClassLevel(classLevel);
+		characterClassLevel.setId(characterClassLevelId);
+		return characterClassLevel;
 	}
 }

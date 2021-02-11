@@ -50,9 +50,11 @@ import com.shakal.rpg.api.validators.CharacterValidator;
 import com.shakal.rpg.api.validators.ErrorMessages;
 import com.shakal.rpg.api.model.Alignment;
 import com.shakal.rpg.api.model.Atribute;
+import com.shakal.rpg.api.model.CreatureLevel;
 import com.shakal.rpg.api.model.Race;
 import com.shakal.rpg.api.model.character.Class;
 import com.shakal.rpg.api.model.character.ClassLevel;
+import com.shakal.rpg.api.model.embedded.ClassLevelId;
 import com.shakal.rpg.api.model.embedded.CreatureAtributeId;
 import com.shakal.rpg.api.model.character.Character;
 import com.shakal.rpg.api.model.character.CharacterRaceAtributeBonus;
@@ -352,10 +354,21 @@ public class CharacterService implements ICharacterService{
 	@Transactional
 	@Override
 	public boolean updateCharacterSheet(CharacterSheetDTO sheetInputDto) throws ResourceNotFoundException {
-		Character search = this.characterDao.findById(sheetInputDto.getId())
+		Character characterSearch = this.characterDao.findById(sheetInputDto.getId())
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
 		
-		this.characterDao.save(CharacterMapper.mapDtoToEntity(search, sheetInputDto));
+		CreatureLevel levelSearch = this.levelDAO.findById(sheetInputDto.getClassLevels().get(0).getLevel().getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		
+		Class clasSSearch = this.classDao.findById(sheetInputDto.getClassLevels().get(0).getClasS().getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		
+		characterSearch = CharacterMapper.mapDtoToEntity(characterSearch, sheetInputDto);
+		
+		
+		characterSearch.getClassLevel().clear();
+		characterSearch.getClassLevel().add(ClassMapper.mapUpdateClassLevel(characterSearch, levelSearch, clasSSearch));
+		this.characterDao.save(characterSearch);
 		return true;
 	}
 

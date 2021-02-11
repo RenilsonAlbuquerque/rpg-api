@@ -23,7 +23,15 @@ public class ClassLevelId implements Serializable{
 	
 	
 
-	
+	public ClassLevelId() {
+		
+	}
+
+	public ClassLevelId(Long classId, Long levelId) {
+		super();
+		this.classId = classId;
+		this.levelId = levelId;
+	}
 
 	public Long getClassId() {
 		return classId;
