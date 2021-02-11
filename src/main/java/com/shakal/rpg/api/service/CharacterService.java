@@ -1,5 +1,6 @@
 package com.shakal.rpg.api.service;
 
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,7 @@ import com.shakal.rpg.api.model.character.ClassLevel;
 import com.shakal.rpg.api.model.embedded.ClassLevelId;
 import com.shakal.rpg.api.model.embedded.CreatureAtributeId;
 import com.shakal.rpg.api.model.character.Character;
+import com.shakal.rpg.api.model.character.CharacterClassLevel;
 import com.shakal.rpg.api.model.character.CharacterRaceAtributeBonus;
 import com.shakal.rpg.api.model.relation.CreatureAtribute;
 import com.shakal.rpg.api.model.relation.UserStory;
@@ -196,11 +198,13 @@ public class CharacterService implements ICharacterService{
 	}
 	private CreatureCardDTO initalizePlayerTokenInStory(CharacterSheetDTO characterSheet,long playerId) {
 		
+		CreatureLevel levelSearch = this.levelDAO.getOne(characterSheet.getClassLevels().get(0).getLevel().getId());
+		
 		CreatureCardDTO result = new CreatureCardDTO();
 		result.setId(characterSheet.getId());
 		result.setName(characterSheet.getName());
 		result.setLifePoints(characterSheet.getLifePoints().getTotalLifePoints());
-		result.setLevel(new LevelDTO(2,450));
+		result.setLevel(LevelMapper.entityToInfoDTO(levelSearch));
 		result.setTotalLifePoints(characterSheet.getLifePoints().getTotalLifePoints());
 		//result.setImagePath(characterSheet.getImagePath());
 		result.setLifePercent(CombatHelper.calculateLifePercent(characterSheet.getLifePoints().getTotalLifePoints(), characterSheet.getLifePoints().getTotalLifePoints()));
@@ -366,8 +370,9 @@ public class CharacterService implements ICharacterService{
 		characterSearch = CharacterMapper.mapDtoToEntity(characterSearch, sheetInputDto);
 		
 		
-		characterSearch.getClassLevel().clear();
+		this.characterClassLevelDAO.deleteAllClassLevelsOfCharacter(characterSearch.getId());
 		characterSearch.getClassLevel().add(ClassMapper.mapUpdateClassLevel(characterSearch, levelSearch, clasSSearch));
+		
 		this.characterDao.save(characterSearch);
 		return true;
 	}

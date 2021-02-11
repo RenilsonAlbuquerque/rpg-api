@@ -2,6 +2,7 @@ package com.shakal.rpg.api.mappers;
 
 import com.shakal.rpg.api.dto.commons.KeyValueDTO;
 import com.shakal.rpg.api.dto.info.LevelDTO;
+import com.shakal.rpg.api.dto.overview.ClassLevelOveriewDTO;
 import com.shakal.rpg.api.model.CreatureLevel;
 
 public class LevelMapper {

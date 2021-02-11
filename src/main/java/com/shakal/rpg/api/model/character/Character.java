@@ -62,7 +62,7 @@ public class Character extends Creature implements Serializable{
 	@JoinColumn(name ="race_id")
 	private Race race;
 	
-	@OneToMany(mappedBy = "character",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "character",fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CharacterClassLevel> classLevel;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Proeficiency.class)
