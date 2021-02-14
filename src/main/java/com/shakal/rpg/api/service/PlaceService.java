@@ -94,9 +94,6 @@ public class PlaceService implements IPlaceService{
 		for(int i = 0; i< placeCreate.getFloors().size();i++) {
 			this.floorService.createFloor(placeCreate.getFloors().get(i), entity,Long.valueOf(i));
 		}
-		for(FloorCreateDTO floor: placeCreate.getFloors()) {
-			
-		}
 		return PlaceMapper.entityToOverview(entity);
 	}
 

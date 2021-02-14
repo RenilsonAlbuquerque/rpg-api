@@ -77,14 +77,15 @@ public class FloorService implements IFloorService{
 			File fileToUp = FileHelper.base64ToFile(floorCreateDto.getMap());
 			fileIdentifier = externalMapImageService.saveMapImageFile(fileToUp, fileName);
 			dimension = FileHelper.getDimensionsOfImage(fileToUp);
+			entity.setMap(fileIdentifier);
+			entity.setNaturalHeight(dimension.getHeight());
+			entity.setNaturalWidth(dimension.getWidth());
+			entity = this.floorDao.save(entity);
 			
 		} catch (IOException e) {
 			throw new FileManagementException("Erro ao salvar o arquivo");
 		}
-		entity.setMap(fileIdentifier);
-		entity.setNaturalHeight(dimension.getHeight());
-		entity.setNaturalWidth(dimension.getWidth());
-		entity = this.floorDao.save(entity);
+		
 		return entity;
 	}
 	
