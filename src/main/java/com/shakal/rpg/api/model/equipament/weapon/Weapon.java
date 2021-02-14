@@ -24,11 +24,11 @@ import com.shakal.rpg.api.model.relation.WeaponDice;
 @PrimaryKeyJoinColumn(name = "id")
 public class Weapon extends Equipament {
 
-	/*
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,targetEntity = WeaponCategory.class)
 	@JoinColumn(name ="category_id", referencedColumnName = "id")
 	private WeaponCategory category;
-	*/
+	
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,targetEntity = WeaponClassification.class )
 	@JoinColumn(name ="classification_id", referencedColumnName = "id")
@@ -87,7 +87,7 @@ public class Weapon extends Equipament {
 	}
 
 
-	/*
+	
 	public WeaponCategory getCategory() {
 		return category;
 	}
@@ -97,7 +97,7 @@ public class Weapon extends Equipament {
 	public void setCategory(WeaponCategory category) {
 		this.category = category;
 	}
-	*/
+	
 
 
 	public List<WeaponDice> getDamage() {

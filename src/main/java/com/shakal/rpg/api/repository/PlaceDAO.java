@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.shakal.rpg.api.model.Place;
+import com.shakal.rpg.api.model.place.Place;
 
 public interface PlaceDAO extends JpaRepository<Place,Long>{
 

@@ -1,6 +1,7 @@
 package com.shakal.rpg.api.control;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shakal.rpg.api.contracts.service.IPlaceMarkService;
+import com.shakal.rpg.api.contracts.service.IFloorMarkService;
 import com.shakal.rpg.api.contracts.service.IPlaceService;
+import com.shakal.rpg.api.dto.commons.NumberNumberDTO;
 import com.shakal.rpg.api.dto.create.PlaceCreateDTO;
-import com.shakal.rpg.api.dto.create.PlaceMarkCreateDTO;
 import com.shakal.rpg.api.dto.info.PlaceInfoDTO;
-import com.shakal.rpg.api.dto.map.MapWallsDTO;
-import com.shakal.rpg.api.dto.overview.PlaceMarkOverviewDTO;
 import com.shakal.rpg.api.dto.overview.PlaceOverviewDTO;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
@@ -34,12 +33,20 @@ public class PlaceController {
 	private IPlaceService placeService;
 	
 	@Autowired
-	private IPlaceMarkService placeMarkService;
+	private IFloorMarkService placeMarkService;
 	
 	
 	@GetMapping("/info/{id}")
 	public ResponseEntity<PlaceInfoDTO> getPlaceInfoById(@PathVariable Long id) throws ResourceNotFoundException {
 	    return new ResponseEntity<PlaceInfoDTO>(this.placeService.getPlaceById(id), HttpStatus.OK);
+	}
+	@GetMapping("/floors/{id}")
+	public ResponseEntity<List<NumberNumberDTO>> getFloorsListByPlaceId(@PathVariable Long id) throws ResourceNotFoundException {
+	    return new ResponseEntity<List<NumberNumberDTO>>(this.placeService.getFloorsByPlaceId(id), HttpStatus.OK);
+	}
+	@GetMapping("/default-floor/{id}")
+	public ResponseEntity<Long> getDefaultFloorByPlaceId(@PathVariable Long id) throws ResourceNotFoundException {
+	    return new ResponseEntity<Long>(this.placeService.getDefaultFloorIdByPlaceId(id), HttpStatus.OK);
 	}
 	@GetMapping("/list/{id}")
 	public ResponseEntity<List<PlaceOverviewDTO>> getPlacesList(@PathVariable Long id) throws ResourceNotFoundException {
@@ -49,21 +56,10 @@ public class PlaceController {
     public ResponseEntity<PlaceOverviewDTO> createNewPlace(@RequestBody PlaceCreateDTO placeDTO) throws ResourceNotFoundException, FileManagementException{
         return new ResponseEntity<PlaceOverviewDTO>(this.placeService.createPlace(placeDTO), HttpStatus.OK);
     }
-	@GetMapping("/list/marks/{id}")
-	public ResponseEntity<List<PlaceMarkOverviewDTO>> getPlacesMarksListByPlaceId(@PathVariable Long id) throws ResourceNotFoundException {
-	    return new ResponseEntity<List<PlaceMarkOverviewDTO>>(this.placeMarkService.getAllPlaceMarksOfPlace(id), HttpStatus.OK);
-	}
-	@PostMapping(value="/create/mark",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<PlaceMarkCreateDTO> createNewMark(@RequestBody PlaceMarkCreateDTO markDTO) throws ResourceNotFoundException{
-        return new ResponseEntity<PlaceMarkCreateDTO>(this.placeMarkService.createPlaceMark(markDTO), HttpStatus.OK);
-    }
+	
 	@GetMapping(value="/delete/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> removePlace(@PathVariable Long id) throws ResourceNotFoundException{
         return new ResponseEntity<Boolean>(this.placeService.removePlace(id), HttpStatus.OK);
-    }
-	@PostMapping(value="/update-walls-map/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> updateWallsMapPlace(@PathVariable Long id,@RequestBody List<MapWallsDTO> inputDto) throws ResourceNotFoundException, FileManagementException{
-        return new ResponseEntity<Boolean>(this.placeService.updatePlaceWallsImage(id,inputDto), HttpStatus.OK);
     }
 	
 }

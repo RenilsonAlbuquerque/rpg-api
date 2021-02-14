@@ -1,16 +1,14 @@
 package com.shakal.rpg.api.dto.create;
 
-
+import java.util.List;
 
 public class PlaceCreateDTO {
 	private long storyId;
 	private String name;
 	private String background;
-	private String map;
-	private double xDimension;
-	private double yDimension;
-	private double squareDimension;
-	private int squareSizeCm;
+	private String image;	
+	private List<FloorCreateDTO> floors;
+	
 
 	
 	public long getStoryId() {
@@ -37,46 +35,23 @@ public class PlaceCreateDTO {
 		this.background = background;
 	}
 
-	public String getMap() {
-		return map;
+	public String getImage() {
+		return image;
 	}
 
-	public void setMap(String map) {
-		this.map = map;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public double getxDimension() {
-		return xDimension;
+	public List<FloorCreateDTO> getFloors() {
+		return floors;
 	}
 
-	public void setxDimension(double xDimension) {
-		this.xDimension = xDimension;
+	public void setFloors(List<FloorCreateDTO> floors) {
+		this.floors = floors;
 	}
 
-	public double getyDimension() {
-		return yDimension;
-	}
-
-	public void setyDimension(double yDimension) {
-		this.yDimension = yDimension;
-	}
-
-	public double getSquareDimension() {
-		return squareDimension;
-	}
-
-	public void setSquareDimension(double squareDimension) {
-		this.squareDimension = squareDimension;
-	}
-
-	public int getSquareSizeCm() {
-		return squareSizeCm;
-	}
-
-	public void setSquareSizeCm(int squareSizeCm) {
-		this.squareSizeCm = squareSizeCm;
-	}
-
+	
 	
 
 }

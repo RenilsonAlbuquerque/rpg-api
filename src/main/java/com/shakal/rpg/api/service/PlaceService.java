@@ -1,40 +1,35 @@
 package com.shakal.rpg.api.service;
 
-import java.awt.Dimension;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shakal.rpg.api.contracts.filemanage.IExternalImageRepository;
-import com.shakal.rpg.api.contracts.filemanage.IExternalWallsMapRepository;
+
+import com.shakal.rpg.api.contracts.service.IFloorService;
 import com.shakal.rpg.api.contracts.service.IPlaceService;
-import com.shakal.rpg.api.dto.create.CreateMapWallsImageDTO;
+import com.shakal.rpg.api.dto.commons.NumberNumberDTO;
+import com.shakal.rpg.api.dto.create.FloorCreateDTO;
 import com.shakal.rpg.api.dto.create.PlaceCreateDTO;
 
 import com.shakal.rpg.api.dto.info.PlaceInfoDTO;
-import com.shakal.rpg.api.dto.map.MapWallsDTO;
 import com.shakal.rpg.api.dto.overview.PlaceOverviewDTO;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 
 import com.shakal.rpg.api.filedata.service.ExternalMapImageService;
-import com.shakal.rpg.api.helpers.FileHelper;
-import com.shakal.rpg.api.mappers.MonsterMapper;
 import com.shakal.rpg.api.mappers.PlaceMapper;
-import com.shakal.rpg.api.mappers.PlaceWallsMapper;
 import com.shakal.rpg.api.mappers.StoryMapper;
-
-import com.shakal.rpg.api.model.Place;
 import com.shakal.rpg.api.model.Story;
+import com.shakal.rpg.api.model.place.Floor;
+import com.shakal.rpg.api.model.place.Place;
 import com.shakal.rpg.api.repository.PlaceDAO;
-import com.shakal.rpg.api.repository.PlaceWallDAO;
+import com.shakal.rpg.api.repository.FloorWallDAO;
 import com.shakal.rpg.api.repository.StoryDAO;
 import com.shakal.rpg.api.utils.Messages;
 
@@ -44,18 +39,20 @@ public class PlaceService implements IPlaceService{
 
 	private PlaceDAO placeDao;
 	private StoryDAO storyDao;
-	private PlaceWallDAO placeWallDAO;
+	private FloorWallDAO placeWallDAO;
 	private ExternalMapImageService externalMapImageService;
+	private IFloorService floorService;
 	
 	
 	@Autowired
-	public PlaceService(PlaceDAO placeDao, StoryDAO storyDao,PlaceWallDAO placeWallDAO,
-			ExternalMapImageService externalMapImageService
+	public PlaceService(PlaceDAO placeDao, StoryDAO storyDao,FloorWallDAO placeWallDAO,
+			ExternalMapImageService externalMapImageService,IFloorService floorService
 			) {
 		this.placeDao = placeDao;
 		this.storyDao = storyDao;
 		this.placeWallDAO = placeWallDAO;
 		this.externalMapImageService = externalMapImageService;
+		this.floorService = floorService;
 	}
 	
 	@Override
@@ -63,22 +60,23 @@ public class PlaceService implements IPlaceService{
 		Place place = this.placeDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
 		
-		place.setMap(this.externalMapImageService.retrieveFileById(place.getMap()));
-		
 		return StoryMapper.placeEntityToDto(place);
 	}
 
 	@Override
 	public List<PlaceOverviewDTO> getPlacesListByStoryId(long id) throws ResourceNotFoundException {
 		
-		List<PlaceOverviewDTO> result = new ArrayList<PlaceOverviewDTO>();
-		PlaceOverviewDTO added = null;
+		return this.placeDao.retrieveAllPlacesInStory(id).stream()
+		.map( place -> PlaceMapper.entityToOverview(place))
+        .collect(Collectors.toList());
+        /*
 		for(Place pl : this.placeDao.retrieveAllPlacesInStory(id)) {
 			added = PlaceMapper.entityToOverview(pl);
 			added.setFolderImage(this.externalMapImageService.retrieveMinimap(pl.getMap()));
 			result.add(added);
 		}
 		return result;
+		*/
 	}
 
 	@Override
@@ -89,32 +87,16 @@ public class PlaceService implements IPlaceService{
 		Place entity = new Place();
 		entity.setName(placeCreate.getName());
 		entity.setBackground(placeCreate.getBackground());
-		entity.setMap("");
-		entity.setxDimension(placeCreate.getxDimension());
-		entity.setyDimension(placeCreate.getyDimension());
-		entity.setSquareDimension(placeCreate.getSquareDimension());
-		entity.setNaturalHeight(200.0d);
-		entity.setSquareSizeCm(placeCreate.getSquareSizeCm());
+		entity.setImage(placeCreate.getImage());
+		
 		entity.setStory(story);
-		//entity.setWallsImage("");
 		entity = this.placeDao.save(entity);
-		
-		String fileName = "map" + entity.getId()+ ".jpg";
-		Dimension dimension = new Dimension();
-		String fileIdentifier = null;
-		
-		try {
-			File fileToUp = FileHelper.base64ToFile(placeCreate.getMap());
-			fileIdentifier = externalMapImageService.saveMapImageFile(fileToUp, fileName);
-			dimension = FileHelper.getDimensionsOfImage(fileToUp);
-			
-		} catch (IOException e) {
-			throw new FileManagementException("Erro ao salvar o arquivo");
+		for(int i = 0; i< placeCreate.getFloors().size();i++) {
+			this.floorService.createFloor(placeCreate.getFloors().get(i), entity,Long.valueOf(i));
 		}
-		entity.setMap(fileIdentifier);
-		entity.setNaturalHeight(dimension.getHeight());
-		entity.setNaturalWidth(dimension.getWidth());
-		entity = this.placeDao.save(entity);
+		for(FloorCreateDTO floor: placeCreate.getFloors()) {
+			
+		}
 		return PlaceMapper.entityToOverview(entity);
 	}
 
@@ -128,40 +110,29 @@ public class PlaceService implements IPlaceService{
 		
 	}
 
-	@Transactional
 	@Override
-	public boolean updatePlaceWallsImage(long placeId,List<MapWallsDTO> inputDto) throws ResourceNotFoundException,FileManagementException {
+	public List<NumberNumberDTO> getFloorsByPlaceId(long placeId) throws ResourceNotFoundException {
 		Place place = this.placeDao.findById(placeId)
-				.orElseThrow(() -> new ResourceNotFoundException(Messages.PLACE_NOT_FOUND));
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
 		
-		//place.getWalls().clear();
-		
-		this.placeWallDAO.deletePlacesWallsByPlaceId(placeId);
-		
-		for(MapWallsDTO wall: inputDto) {
-			this.placeWallDAO.save( PlaceWallsMapper.dtoToEntity(wall,place));
-		}
+		return place.getFloors().stream()
+				.map(floor ->  new NumberNumberDTO(floor.getFloorOrder(),floor.getId()))
+				 .collect(Collectors.toList());
 		/*
-		place.setWalls( inputDto.stream()
-				.map( wall -> PlaceWallsMapper.dtoToEntity(wall,place) )
-				.collect(Collectors.toList())
-		);
-		this.placeDao.save(place);
-		*/
-		
-		//String fileName = "wallsPlace" + inputDto.getPlaceId() + ".png";
-		/*
-		File fileToUp;
-		try {
-			fileToUp = FileHelper.base64ToFile(inputDto.getWallsImageBase64());
-			place.setWallsImage(this.externalImageWallsRepository.saveWallsMapFile(fileToUp, fileName));
-			this.placeDao.save(place);
-		} catch (IOException  e) {
-			throw new FileManagementException("Erro ao salvar o arquivo"); 
-		}
-		*/
-		return true;
+		return place.getFloors().stream()
+			.collect(Collectors.toMap(Floor::getFloorOrder, Floor:: getId));
+			*/
 	}
+
+	@Override
+	public Long getDefaultFloorIdByPlaceId(long placeId) throws ResourceNotFoundException {
+		Place place = this.placeDao.findById(placeId)
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
+		
+		return place.getFloors().get(0).getId();
+	}
+
+	
 	
 
 

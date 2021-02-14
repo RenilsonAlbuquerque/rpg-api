@@ -13,6 +13,7 @@ public class CombatStateDTO {
 	private String currentCreatureTurn;
 	private boolean combatStarted;
 	private long placeId;
+	private long floorId;
 	
 	
 	
@@ -65,6 +66,12 @@ public class CombatStateDTO {
 	}
 	public void setPlaceId(long placeId) {
 		this.placeId = placeId;
+	}
+	public long getFloorId() {
+		return floorId;
+	}
+	public void setFloorId(long floorId) {
+		this.floorId = floorId;
 	}
 	
 	

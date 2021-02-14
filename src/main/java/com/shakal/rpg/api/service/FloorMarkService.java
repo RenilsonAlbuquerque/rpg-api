@@ -7,34 +7,34 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shakal.rpg.api.contracts.service.IPlaceMarkService;
+import com.shakal.rpg.api.contracts.service.IFloorMarkService;
 import com.shakal.rpg.api.dto.create.PlaceMarkCreateDTO;
 import com.shakal.rpg.api.dto.info.PlaceMarkInfo;
 import com.shakal.rpg.api.dto.overview.PlaceMarkOverviewDTO;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 import com.shakal.rpg.api.mappers.PlaceMarkMapper;
-import com.shakal.rpg.api.model.Place;
-import com.shakal.rpg.api.model.place.PlaceMark;
-import com.shakal.rpg.api.repository.PlaceDAO;
-import com.shakal.rpg.api.repository.PlaceMarkDAO;
+import com.shakal.rpg.api.model.place.Floor;
+import com.shakal.rpg.api.model.place.FloorMark;
+import com.shakal.rpg.api.repository.FloorDAO;
+import com.shakal.rpg.api.repository.FloorMarkDAO;
 import com.shakal.rpg.api.utils.Messages;
 
 @Service
-public class PlaceMarkService implements IPlaceMarkService {
+public class FloorMarkService implements IFloorMarkService {
 	
 	
-	private PlaceMarkDAO placeMarkDao;
-	private PlaceDAO placeDao;
+	private FloorMarkDAO placeMarkDao;
+	private FloorDAO floorDao;
 	
 	@Autowired
-	public PlaceMarkService(PlaceMarkDAO placeMarkDao,PlaceDAO placeDao) {
+	public FloorMarkService(FloorMarkDAO placeMarkDao,FloorDAO floorDao) {
 		this.placeMarkDao = placeMarkDao;
-		this.placeDao = placeDao;
+		this.floorDao = floorDao;
 	}
 
 	@Override
 	public PlaceMarkInfo getPlaceMarkInfoById(long id) throws ResourceNotFoundException {
-		PlaceMark placeMark = this.placeMarkDao.findById(id)
+		FloorMark placeMark = this.placeMarkDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
 		return PlaceMarkMapper.entityToInfo(placeMark);
 		
@@ -42,25 +42,25 @@ public class PlaceMarkService implements IPlaceMarkService {
 	}
 
 	@Override
-	public List<PlaceMarkOverviewDTO> getAllPlaceMarksOfPlace(long placeId) throws ResourceNotFoundException {
-		Place place = this.placeDao.findById(placeId)
+	public List<PlaceMarkOverviewDTO> getAllPlaceMarksOfPlace(long floorId) throws ResourceNotFoundException {
+		Floor floor = this.floorDao.findById(floorId)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.PLACE_NOT_FOUND));
-		return place.getMarks()
+		return floor.getMarks()
 		.stream()
 		.map(mark -> PlaceMarkMapper.entityToOverview(mark))
         .collect(Collectors.toList());
 	}
 
 	@Override
-	public PlaceMarkCreateDTO createPlaceMark(PlaceMarkCreateDTO placeMarkCreateDTO) throws ResourceNotFoundException {
-		Place place = this.placeDao.findById(placeMarkCreateDTO.getPlaceId())
+	public PlaceMarkCreateDTO createFloorMark(PlaceMarkCreateDTO placeMarkCreateDTO) throws ResourceNotFoundException {
+		Floor floor = this.floorDao.findById(placeMarkCreateDTO.getPlaceId())
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.PLACE_NOT_FOUND));
-		PlaceMark entity = new PlaceMark();
+		FloorMark entity = new FloorMark();
 		entity.setName(placeMarkCreateDTO.getName());
 		entity.setDescription(placeMarkCreateDTO.getDescription());
 		entity.setCoordinateX(placeMarkCreateDTO.getCoordinateX());
 		entity.setCoordinateY(placeMarkCreateDTO.getCoordinateY());
-		entity.setPlace(place);
+		entity.setFloor(floor);
 		this.placeMarkDao.save(entity);
 		return placeMarkCreateDTO;
 	}

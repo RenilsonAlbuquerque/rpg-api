@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.shakal.rpg.api.model.place.PlaceWall;
+import com.shakal.rpg.api.model.place.FloorWall;
 
-public interface PlaceWallDAO extends JpaRepository<PlaceWall,Long> {
+public interface FloorWallDAO extends JpaRepository<FloorWall,Long> {
 	
 	@Modifying
-	@Query("delete from PlaceWall pw where pw.place.id= ?1")
-	void deletePlacesWallsByPlaceId(long placeId);
+	@Query("delete from FloorWall pw where pw.floor.id= ?1")
+	void deletePlacesWallsByFloorId(long floorId);
 	
 }

@@ -10,11 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.shakal.rpg.api.model.Place;
-
 @Entity
-@Table(name= "tb_place_wall")
-public class PlaceWall {
+@Table(name= "tb_floor_wall")
+public class FloorWall {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +23,9 @@ public class PlaceWall {
 	private int endPositionX;
 	private int endPositionY;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Place.class)
-	@JoinColumn(name ="place_id", referencedColumnName = "id")
-	private Place place;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Floor.class)
+	@JoinColumn(name ="floor_id", referencedColumnName = "id")
+	private Floor floor;
 	
 	public int getStartPositionX() {
 		return startPositionX;
@@ -59,11 +57,11 @@ public class PlaceWall {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public Place getPlace() {
-		return place;
+	public Floor getFloor() {
+		return floor;
 	}
-	public void setPlace(Place place) {
-		this.place = place;
+	public void setFloor(Floor floor) {
+		this.floor = floor;
 	}
 	
 	

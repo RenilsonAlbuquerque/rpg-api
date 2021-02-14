@@ -26,11 +26,11 @@ import com.shakal.rpg.api.exception.ResourceNotFoundException;
 import com.shakal.rpg.api.filedata.service.ExternalMapImageService;
 import com.shakal.rpg.api.mappers.StoryMapper;
 import com.shakal.rpg.api.mappers.UserMapper;
-import com.shakal.rpg.api.model.Place;
 import com.shakal.rpg.api.model.Story;
 import com.shakal.rpg.api.model.User;
 import com.shakal.rpg.api.model.embedded.UserStoryId;
 import com.shakal.rpg.api.model.enums.UserStoryRole;
+import com.shakal.rpg.api.model.place.Place;
 import com.shakal.rpg.api.model.relation.UserStory;
 import com.shakal.rpg.api.repository.PlaceDAO;
 import com.shakal.rpg.api.repository.StoryDAO;
@@ -107,12 +107,7 @@ public class StoryService implements IStoryService {
 	public StoryInfoDTO getStoryById(long id) throws ResourceNotFoundException {
 		Story story = this.storyRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
-		StoryInfoDTO result = StoryMapper.entityToInfo(story);
-		for(PlaceInfoDTO place: result.getPlaces()) {
-			place.setMap(this.externalMapImageService.retrieveMinimap(
-					place.getMap()));
-		}
-		return result;
+		return StoryMapper.entityToInfo(story);
 	}
 
 	@Override

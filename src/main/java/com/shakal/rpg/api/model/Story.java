@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.shakal.rpg.api.model.place.Place;
+
 
 @Entity
 @Table(name= "tb_story")

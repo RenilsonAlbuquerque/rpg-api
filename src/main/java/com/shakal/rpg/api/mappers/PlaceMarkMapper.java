@@ -2,11 +2,11 @@ package com.shakal.rpg.api.mappers;
 
 import com.shakal.rpg.api.dto.info.PlaceMarkInfo;
 import com.shakal.rpg.api.dto.overview.PlaceMarkOverviewDTO;
-import com.shakal.rpg.api.model.place.PlaceMark;
+import com.shakal.rpg.api.model.place.FloorMark;
 
 public class PlaceMarkMapper {
 
-	public static PlaceMarkInfo entityToInfo(PlaceMark entity) {
+	public static PlaceMarkInfo entityToInfo(FloorMark entity) {
 		PlaceMarkInfo result = new PlaceMarkInfo();
 		result.setId(entity.getId());
 		result.setName(entity.getName());
@@ -14,7 +14,7 @@ public class PlaceMarkMapper {
 		return result;
 		
 	}
-	public static PlaceMarkOverviewDTO entityToOverview(PlaceMark entity) {
+	public static PlaceMarkOverviewDTO entityToOverview(FloorMark entity) {
 		PlaceMarkOverviewDTO result = new PlaceMarkOverviewDTO();
 		result.setId(entity.getId());
 		result.setName(entity.getName());
