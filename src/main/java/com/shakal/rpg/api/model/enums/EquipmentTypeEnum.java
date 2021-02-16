@@ -2,7 +2,7 @@ package com.shakal.rpg.api.model.enums;
 
 public enum EquipmentTypeEnum {
 
-	WEAPON(1),ARMOR(2),TOOL(3),MOUNT(4);
+	WEAPON(1),ARMOR(2),TOOL(3),MOUNT(4),ADVENTURE_GEAR(5);
 	
 	private int value;
 	

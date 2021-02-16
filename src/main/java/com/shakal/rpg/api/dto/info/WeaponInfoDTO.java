@@ -17,6 +17,7 @@ public class WeaponInfoDTO {
 	private KeyValueDTO classification;
 	private KeyValueDTO range;
 	private List<DamageInfoDTO> damage;
+	private List<KeyValueDTO> properties;
 	private int bonus;
 
 	public long getId() {
@@ -113,6 +114,14 @@ public class WeaponInfoDTO {
 
 	public void setBonus(int bonus) {
 		this.bonus = bonus;
+	}
+
+	public List<KeyValueDTO> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<KeyValueDTO> properties) {
+		this.properties = properties;
 	}
 
 	

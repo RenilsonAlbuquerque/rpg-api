@@ -37,6 +37,9 @@ public abstract class WeaponMapper {
 				.collect(Collectors.toList())
 				);
 		result.setBonus(entity.getBonus());
+		result.setProperties(entity.getProperties()
+				.stream().map(property -> new KeyValueDTO(property.getId(),property.getName()) )
+				.collect(Collectors.toList()));
 		return result;
 	}
 	public static DamageInfoDTO damageEntityToDTO(WeaponDice entity) {

@@ -8,6 +8,7 @@ import com.shakal.rpg.api.model.enums.EquipmentTypeEnum;
 import com.shakal.rpg.api.model.equipament.Equipament;
 import com.shakal.rpg.api.model.equipament.adventuregear.AdventureGear;
 import com.shakal.rpg.api.model.equipament.armor.Armor;
+import com.shakal.rpg.api.model.equipament.tool.Tool;
 import com.shakal.rpg.api.model.equipament.weapon.Weapon;
 
 public class EquipmentMapper {
@@ -60,6 +61,10 @@ public class EquipmentMapper {
 			result.setValue("Armadura");
 		}
 		if(entity instanceof AdventureGear) {
+			result.setId(EquipmentTypeEnum.ADVENTURE_GEAR.getValue());
+			result.setValue("Item de aventura");
+		}
+		if(entity instanceof Tool) {
 			result.setId(EquipmentTypeEnum.TOOL.getValue());
 			result.setValue("Ferramenta");
 		}

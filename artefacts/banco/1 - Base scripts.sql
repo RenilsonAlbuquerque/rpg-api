@@ -1,4 +1,4 @@
-use rpg2;
+use heroku_b7136ebab5eff09;
 
 insert into tb_dice(id,value) values (1,0);
 insert into tb_dice(id,value) values (2,1);

@@ -51,7 +51,7 @@ public class FloorService implements IFloorService{
 		
 		return FloorMapper.floorEntityToDto(floor);
 	}
-	
+	@Transactional
 	@Override
 	public Floor createFloor(FloorCreateDTO floorCreateDto,Place place,Long floorOrder) throws ResourceNotFoundException,FileManagementException{
 		
@@ -62,7 +62,8 @@ public class FloorService implements IFloorService{
 		
 		entity.setSquareDimension(floorCreateDto.getSquareDimension());
 		entity.setSquareSizeCm(floorCreateDto.getSquareDimensionCm());
-		entity.setNaturalHeight(200.0d);
+		entity.setNaturalHeight(200d);
+		entity.setNaturalWidth(200d);
 		entity.setFloorOrder(floorOrder);
 
 		

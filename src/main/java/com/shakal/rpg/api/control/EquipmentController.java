@@ -17,7 +17,6 @@ import com.shakal.rpg.api.dto.create.EquipmentCreateInputDTO;
 import com.shakal.rpg.api.dto.filter.CustomPage;
 import com.shakal.rpg.api.dto.filter.PaginationFilter;
 import com.shakal.rpg.api.dto.overview.EquipmentOverviewDTO;
-import com.shakal.rpg.api.dto.overview.MonsterOverviewDTO;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 
 @CrossOrigin

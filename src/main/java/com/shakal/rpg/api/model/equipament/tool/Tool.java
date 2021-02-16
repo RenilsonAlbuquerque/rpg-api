@@ -18,4 +18,14 @@ public class Tool extends Equipament {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,targetEntity = ToolCategory.class)
 	@JoinColumn(name ="category_id", referencedColumnName = "id")
 	private ToolCategory category;
+
+	public ToolCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ToolCategory category) {
+		this.category = category;
+	}
+	
+	
 }
