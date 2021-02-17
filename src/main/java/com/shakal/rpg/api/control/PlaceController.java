@@ -48,6 +48,10 @@ public class PlaceController {
 	public ResponseEntity<Long> getDefaultFloorByPlaceId(@PathVariable Long id) throws ResourceNotFoundException {
 	    return new ResponseEntity<Long>(this.placeService.getDefaultFloorIdByPlaceId(id), HttpStatus.OK);
 	}
+	@GetMapping("/main-place/{id}")
+	public ResponseEntity<Long> getMainPlaceByStoryId(@PathVariable Long id) throws ResourceNotFoundException {
+		  return new ResponseEntity<Long>(this.placeService.getMainPlaceIdByStoryId(id), HttpStatus.OK);
+	}
 	@GetMapping("/list/{id}")
 	public ResponseEntity<List<PlaceOverviewDTO>> getPlacesList(@PathVariable Long id) throws ResourceNotFoundException {
 	    return new ResponseEntity<List<PlaceOverviewDTO>>(this.placeService.getPlacesListByStoryId(id), HttpStatus.OK);

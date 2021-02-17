@@ -17,4 +17,5 @@ public interface IPlaceService {
 	Boolean removePlace(long placeId) throws ResourceNotFoundException;
 	List<NumberNumberDTO> getFloorsByPlaceId(long placeId)throws ResourceNotFoundException;
 	Long getDefaultFloorIdByPlaceId(long placeId)throws ResourceNotFoundException;
+	Long getMainPlaceIdByStoryId(long storyId)throws ResourceNotFoundException;
 }

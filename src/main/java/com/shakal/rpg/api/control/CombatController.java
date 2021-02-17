@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.contracts.service.ICombatService;
 import com.shakal.rpg.api.contracts.service.IStoryService;
+import com.shakal.rpg.api.dto.combat.ChangeCharcterLocationDTO;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
 import com.shakal.rpg.api.dto.combat.PassTurnDTO;
 import com.shakal.rpg.api.dto.combat.RemoveCreatureFromCombatDTO;
@@ -69,10 +70,10 @@ public class CombatController {
 		return new ResponseEntity<Boolean>(this.combatService.removeCreatureFromCombat(removeCreatureFromCombatDTO), HttpStatus.OK);
     }
 	
-	/*
-	@GetMapping(value="/reset-combat/{id}")
-	public ResponseEntity<Boolean> resetCombat(@PathVariable Long id) throws ResourceNotFoundException{
-		return new ResponseEntity<Boolean>(this.combatService.startCombat(id), HttpStatus.OK);
+	
+	@PostMapping(value="/change-player-place")
+	public ResponseEntity<Boolean> changePlayerPlaceInStoryCombat(@RequestBody ChangeCharcterLocationDTO removeCreatureFromCombatDTO) throws ResourceNotFoundException{
+		return new ResponseEntity<Boolean>(this.combatService.startCombat(2), HttpStatus.OK);
     }
-	*/
+	
 }

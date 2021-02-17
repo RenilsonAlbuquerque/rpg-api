@@ -70,5 +70,6 @@ public class StoryController {
 	 public ResponseEntity<StoryCreateInputDTO> getStoryValuesToCreate() {
 	     return new ResponseEntity<StoryCreateInputDTO>(this.storyrService.getStoryInfoToCreate(), HttpStatus.OK);
 	 }
+	 
 
 }

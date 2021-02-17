@@ -19,6 +19,8 @@ public class CreatureCardDTO implements Comparable<CreatureCardDTO>{
 	 private double size;
 	 private boolean ally;
 	 private int initiative;
+	 private int currentFloor;
+	 private long currentPlace;
 
 	public long getId() {
 		return id;
@@ -157,6 +159,26 @@ public class CreatureCardDTO implements Comparable<CreatureCardDTO>{
 
 	public void setInitiative(int initiative) {
 		this.initiative = initiative;
+	}
+
+
+	public int getCurrentFloor() {
+		return currentFloor;
+	}
+
+
+	public void setCurrentFloor(int currentFloor) {
+		this.currentFloor = currentFloor;
+	}
+
+
+	public long getCurrentPlace() {
+		return currentPlace;
+	}
+
+
+	public void setCurrentPlace(long currentPlace) {
+		this.currentPlace = currentPlace;
 	}
 
 
