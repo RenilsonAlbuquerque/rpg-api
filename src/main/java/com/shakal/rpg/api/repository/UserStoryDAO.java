@@ -29,4 +29,9 @@ public interface UserStoryDAO  extends JpaRepository<UserStory,UserStoryId>{
 	@Query("SELECT us FROM UserStory us FETCH ALL PROPERTIES where us.story.id = ?1")
 	List<UserStory> retrieveAllUsersInStory(long storyId);
 	
+	@Query("SELECT us FROM UserStory us FETCH ALL PROPERTIES where us.story.id = ?1 and us.master = false")
+	List<UserStory> retrieveAllUsersInStoryExceptMaster(long storyId);
+	
+	
+	
 }

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shakal.rpg.api.contracts.service.IUserService;
 import com.shakal.rpg.api.dto.create.UserCreateDTO;
 import com.shakal.rpg.api.dto.create.UserStoryManagementInputDTO;
+import com.shakal.rpg.api.dto.edit.UserManagementUpdateDTO;
 import com.shakal.rpg.api.exception.DuplicatedResourceException;
+import com.shakal.rpg.api.exception.ResourceNotFoundException;
 
 
 @CrossOrigin
@@ -33,5 +35,9 @@ public class UserController {
 	@GetMapping(value = "/manage-story/metadata/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserStoryManagementInputDTO> listAllUsersExceptRequested(@PathVariable Long id) throws DuplicatedResourceException {
 		return new ResponseEntity<UserStoryManagementInputDTO>(this.userService.getUserManagementInput(id), HttpStatus.OK);
+    }
+	@PostMapping(value = "/manage-story/update",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UserManagementUpdateDTO> updateListOfPlayersInStory(@RequestBody UserManagementUpdateDTO inputDto) throws ResourceNotFoundException {
+		return new ResponseEntity<UserManagementUpdateDTO>(this.userService.updateUsersInStory(inputDto), HttpStatus.OK);
     }
 }

@@ -74,8 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public IExternalFileStorageStrategy getExternalFileStorageStrategy() {
-		//return new LocalFileStorageImplementation();
-		return new DriveExternalFileStorageImplementation();
+		return new LocalFileStorageImplementation();
+		//return new DriveExternalFileStorageImplementation();
 	}
 	
 	
