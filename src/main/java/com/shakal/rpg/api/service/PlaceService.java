@@ -129,6 +129,14 @@ public class PlaceService implements IPlaceService{
 		return place.getFloors().get(0).getId();
 	}
 
+	@Override
+	public Long getMainPlaceIdByStoryId(long storyId) throws ResourceNotFoundException {
+		Story story = this.storyDao.findById(storyId)
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.STORY_NOT_FOUND));
+		
+		return (story.getPlaces().size() > 0)? story.getPlaces().get(0).getId():0 ;
+	}
+
 	
 	
 

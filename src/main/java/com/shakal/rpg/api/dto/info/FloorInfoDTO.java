@@ -8,10 +8,6 @@ public class FloorInfoDTO {
 
 	private long id;
 	
-	private String name;
-	
-	private String background;
-	
 	private String map;
 	
 	private List<MapWallsDTO> walls;
@@ -28,28 +24,14 @@ public class FloorInfoDTO {
 
 	private int squareSizeCm;
 	
+	private long placeId;
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getBackground() {
-		return background;
-	}
-
-	public void setBackground(String background) {
-		this.background = background;
 	}
 
 	public String getMap() {
@@ -115,6 +97,16 @@ public class FloorInfoDTO {
 	public void setWalls(List<MapWallsDTO> walls) {
 		this.walls = walls;
 	}
+
+	public long getPlaceId() {
+		return placeId;
+	}
+
+	public void setPlaceId(long placeId) {
+		this.placeId = placeId;
+	}
+
+	
 
 	
 }

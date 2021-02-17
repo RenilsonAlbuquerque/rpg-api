@@ -26,4 +26,16 @@ public abstract class CombatStateMapper {
 		return combatState;
 		
 	}
+	public static CombatStateDTO createBlankCombatState() {
+		CombatStateDTO combatState = new CombatStateDTO();
+		List<CreatureCardDTO> allyQueue = new ArrayList<CreatureCardDTO>();
+		List<CreatureCardDTO> enemy = new ArrayList<CreatureCardDTO>();
+		List<CreatureCardDTO> creatures = new ArrayList<CreatureCardDTO>();
+		combatState.setAllyQueue(allyQueue);
+		combatState.setEnemyQueue(enemy);
+		combatState.setCreatures(creatures);
+		combatState.setCurrentCreatureTurn("");
+		return combatState;
+		
+	}
 }

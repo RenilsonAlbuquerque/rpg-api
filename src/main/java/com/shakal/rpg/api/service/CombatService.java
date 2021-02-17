@@ -2,6 +2,7 @@ package com.shakal.rpg.api.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -12,6 +13,7 @@ import com.shakal.rpg.api.contracts.service.ICharacterService;
 import com.shakal.rpg.api.contracts.service.ICombatService;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
 import com.shakal.rpg.api.dto.combat.PassTurnDTO;
+import com.shakal.rpg.api.dto.combat.PlayersStateDTO;
 import com.shakal.rpg.api.dto.combat.RemoveCreatureFromCombatDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.combat.CreatureCardDTO;
@@ -20,10 +22,13 @@ import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
 import com.shakal.rpg.api.dto.map.MapAreaDTO;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 import com.shakal.rpg.api.mappers.CombatStateMapper;
+import com.shakal.rpg.api.mappers.JSONMapper;
 import com.shakal.rpg.api.model.ChallangeDificult;
 import com.shakal.rpg.api.model.combatstate.CombatState;
+import com.shakal.rpg.api.model.combatstate.PlayersState;
 import com.shakal.rpg.api.repository.ChallengeDificultDAO;
 import com.shakal.rpg.api.repository.CombatStateDAO;
+import com.shakal.rpg.api.repository.PlayersStateDAO;
 import com.shakal.rpg.api.utils.Messages;
 
 @Service
@@ -31,17 +36,19 @@ public class CombatService implements ICombatService{
 	
 	private ChallengeDificultDAO challengeDificultDAO;
 	private CombatStateDAO combatStateDAO;
+	private PlayersStateDAO playersStateDAO;
 	private ICharacterService characterService;
 	private final SimpMessagingTemplate template;
 	
 	@Autowired
 	public CombatService(ChallengeDificultDAO challengeDificultDAO,
 			CombatStateDAO combatStateDao,SimpMessagingTemplate simpMessagingTemplate,
-			ICharacterService characterService) {
+			ICharacterService characterService,PlayersStateDAO playersStateDAO) {
 		this.template = simpMessagingTemplate;
 		this.challengeDificultDAO = challengeDificultDAO;
 		this.combatStateDAO = combatStateDao;
 		this.characterService = characterService;
+		this.playersStateDAO = playersStateDAO;
 	}
 
 	
@@ -140,14 +147,12 @@ public class CombatService implements ICombatService{
 		}
 		return result;
 	}
-	private String serializeObjectToJSON(Object obj) {
-		return new Gson().toJson(obj);
-	}
+	
 	@Override
 	public CombatStateDTO updateCombatConditions(CombatStateDTO input, long storyId) {
 		this.updateMonstersConditions(input);
 		calculateChallengeDeficult(input);
-		this.combatStateDAO.save(new CombatState(storyId,serializeObjectToJSON(input)));
+		this.combatStateDAO.save(new CombatState(storyId,JSONMapper.serializeObjectToJSON(input)));
 		this.sendMessage(storyId, input);
 		return input;
 	}
@@ -173,10 +178,16 @@ public class CombatService implements ICombatService{
 
 
 	@Override
-	public CombatStateDTO getCombatState(long storyId) throws ResourceNotFoundException {
-		CombatState search = this.combatStateDAO.findById(storyId)
-				.orElseThrow(() -> new ResourceNotFoundException(Messages.COMBAT_STATE_NOT_FOUND));
-		return new Gson().fromJson(search.getCombatStateJSON(), CombatStateDTO.class);
+	public CombatStateDTO getCombatState(long placeId) throws ResourceNotFoundException {
+		Optional<CombatState> search = this.combatStateDAO.findById(placeId);
+		CombatStateDTO result = null;
+		if(search.isPresent()) {
+			result = new Gson().fromJson(search.get().getCombatStateJSON(), CombatStateDTO.class);
+		}else {
+			result = CombatStateMapper.createBlankCombatState();
+			this.combatStateDAO.save(new CombatState(placeId,JSONMapper.serializeObjectToJSON(result)));
+		}
+		return result;
 	}
 	
 	
@@ -254,7 +265,7 @@ public class CombatService implements ICombatService{
 	}
 	
 	private boolean saveAndSend(long storyId,CombatStateDTO combatState) {
-		this.combatStateDAO.save(new CombatState(storyId,serializeObjectToJSON(combatState)));
+		this.combatStateDAO.save(new CombatState(storyId,JSONMapper.serializeObjectToJSON(combatState)));
 		this.sendMessage(storyId, combatState);
 		return true;
 	}
@@ -299,6 +310,19 @@ public class CombatService implements ICombatService{
 		this.saveAndSend(inputDto.getStoryId(), result);
 		return true;
 	}
+
+
+	@Override
+	public PlayersStateDTO updatePlayersLocations(PlayersStateDTO input, long storyId) {
+		this.playersStateDAO.save(new PlayersState(storyId,JSONMapper.serializeObjectToJSON(input)));
+		this.sendPlayersMessage(storyId, input);
+		return input;
+	}
+	private void sendPlayersMessage(long id, PlayersStateDTO state) {
+		this.template.convertAndSend("/topic/players/"+ id, state);
+		
+	}
+	
 
 
 	

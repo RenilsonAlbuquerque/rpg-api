@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class CombatState {
 	
 	@Id
-	private long storyId;
+	private long placeId;
 	
 	@Column(length=15000)
 	private String combatStateJSON;
@@ -19,18 +19,17 @@ public class CombatState {
 		
 	}
 	public CombatState(long id, String combatStateJson) {
-		this.storyId = id;
+		this.placeId = id;
 		this.combatStateJSON = combatStateJson;
 	}
 	
-	public long getStoryId() {
-		return storyId;
-	}
 
-	public void setStoryId(long storyId) {
-		this.storyId = storyId;
+	public long getPlaceId() {
+		return placeId;
 	}
-
+	public void setPlaceId(long placeId) {
+		this.placeId = placeId;
+	}
 	public String getCombatStateJSON() {
 		return combatStateJSON;
 	}

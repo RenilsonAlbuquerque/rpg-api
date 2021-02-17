@@ -19,6 +19,7 @@ public class FloorMapper {
 		dto.setNaturalWidth(entity.getNaturalWidth());
 		dto.setSquareDimension(entity.getSquareDimension());
 		dto.setSquareSizeCm(entity.getSquareSizeCm());
+		dto.setPlaceId(entity.getPlace().getId());
 		return dto;
 	}
 }

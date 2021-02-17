@@ -3,19 +3,17 @@ package com.shakal.rpg.api.control;
 
 
 
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 
 import com.shakal.rpg.api.contracts.service.ICombatService;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
+import com.shakal.rpg.api.dto.combat.PlayersStateDTO;
 import com.shakal.rpg.api.dto.map.MapAreaDTO;
 
 
@@ -35,6 +33,11 @@ public class CombatStompController {
 	        this.combatService = combatService;
 	}
 	
+	@MessageMapping("/players/{id}")
+	public void recievePlayersDTO(@DestinationVariable Long id,PlayersStateDTO state) throws Exception {
+		state = this.combatService.updatePlayersLocations(state,id);
+	}
+	
 	@MessageMapping("/combat/{id}")
 	public void recieveDTO(@DestinationVariable Long id,CombatStateDTO state) throws Exception {
 		//state.setDificult(combatService.calculateChallengeDeficult(state));
@@ -43,7 +46,6 @@ public class CombatStompController {
 	@MessageMapping("/combat-area/{id}")
 	public void recieveCombatAreaDTO(@DestinationVariable Long id,MapAreaDTO mapState) throws Exception {
 		//state.setDificult(combatService.calculateChallengeDeficult(state));
-		System.out.println("Chegou aquiiiieeeee");
 		mapState = this.combatService.updateMapArea(mapState);
 		//maps.put(Long.valueOf(id),mapState);
 		//this.template.convertAndSend("/topic/combat-area/"+ id, mapState);

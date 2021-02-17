@@ -14,6 +14,7 @@ public class Messages {
     public static final String STORY_NOT_FOUND = "A histï¿½ria nï¿½o existe";
     public static final String PLACE_NOT_FOUND = "O Lugar nao existe";
     public static final String COMBAT_STATE_NOT_FOUND = "O combate nÃ£o existe";
+    public static final String PLAYERS_STATE_NOT_FOUND = "O status de jogadores não existe";
     
     public static final String WEAPON_NOT_FOUND = "Arma nï¿½o encontrada";
     public static final String ARMOR_NOT_FOUND = "armadura não encontrada";

@@ -1,6 +1,6 @@
 package com.shakal.rpg.api.service;
 
-import java.util.Iterator;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,7 +19,6 @@ import com.shakal.rpg.api.dto.create.CharacterHeaderInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
-import com.shakal.rpg.api.dto.info.LevelDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
@@ -55,10 +54,8 @@ import com.shakal.rpg.api.model.CreatureLevel;
 import com.shakal.rpg.api.model.Race;
 import com.shakal.rpg.api.model.character.Class;
 import com.shakal.rpg.api.model.character.ClassLevel;
-import com.shakal.rpg.api.model.embedded.ClassLevelId;
 import com.shakal.rpg.api.model.embedded.CreatureAtributeId;
 import com.shakal.rpg.api.model.character.Character;
-import com.shakal.rpg.api.model.character.CharacterClassLevel;
 import com.shakal.rpg.api.model.character.CharacterRaceAtributeBonus;
 import com.shakal.rpg.api.model.relation.CreatureAtribute;
 import com.shakal.rpg.api.model.relation.UserStory;
@@ -386,6 +383,26 @@ public class CharacterService implements ICharacterService{
 		result.setLevels(this.levelDAO.retrieveCharacterLevels().stream()
 				.map(clas -> LevelMapper.entityToDTOCharacter(clas))
 				.collect(Collectors.toList()));
+		return result;
+	}
+
+	@Override
+	public CreatureCardDTO getCharacterTokenById(long characterId) throws ResourceNotFoundException {
+		Character search = this.characterDao.findById(characterId)
+				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
+		
+		CreatureCardDTO result = new CreatureCardDTO();
+		result.setId(search.getId());
+		result.setName(search.getName());
+		result.setLifePoints(search.getLifePoints());
+		result.setLevel(LevelMapper.entityToInfoDTO(search.getClassLevel().get(0).getClassLevel().getLevel()));
+		result.setTotalLifePoints(search.getTotalLifePoints());
+		//result.setImagePath(characterSheet.getImagePath());
+		result.setLifePercent(CombatHelper.calculateLifePercent(search.getTotalLifePoints(), search.getTotalLifePoints()));
+		result.setSpeed(search.getSpeed());
+		result.setPlayerId(search.getUserStory().get(0).getUser().getId());
+		result.setPosition(new CardPositionDTO(0,0));
+		result.setSize(1);
 		return result;
 	}
 	
