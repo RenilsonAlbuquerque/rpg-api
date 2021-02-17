@@ -25,7 +25,6 @@ import com.shakal.rpg.api.filedata.strategy.DriveExternalFileStorageImplementati
 import com.shakal.rpg.api.filedata.strategy.IExternalFileStorageStrategy;
 import com.shakal.rpg.api.filedata.strategy.LocalFileStorageImplementation;
 import com.shakal.rpg.api.handler.CustomAccessDeniedHandler;
-import com.shakal.rpg.api.model.User;
 import com.shakal.rpg.api.utils.Constants;
 
 @Configuration
