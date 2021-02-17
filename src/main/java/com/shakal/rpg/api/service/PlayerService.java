@@ -64,7 +64,7 @@ public class PlayerService implements IPlayerService {
 		
 		List<CreatureCardDTO> resultPlayers = new ArrayList<CreatureCardDTO>();
 		for(UserStory userStory:this.userStoryDAO.retrieveAllUsersInStory(storyId)) {
-			if(!userStory.isMaster()) {
+			if(!userStory.isMaster() && userStory.getCharacter() != null) {
 				try {
 					resultPlayers.add(
 							this.characterService.getCharacterTokenById(userStory.getCharacter().getId()));
