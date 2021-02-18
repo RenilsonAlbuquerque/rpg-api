@@ -19,6 +19,7 @@ import com.shakal.rpg.api.model.combatstate.PlayersState;
 import com.shakal.rpg.api.model.relation.UserStory;
 import com.shakal.rpg.api.repository.PlayersStateDAO;
 import com.shakal.rpg.api.repository.UserStoryDAO;
+import com.shakal.rpg.api.model.character.Character;
 
 @Service
 public class PlayerService implements IPlayerService {
@@ -73,4 +74,16 @@ public class PlayerService implements IPlayerService {
 		}
 		return new PlayersStateDTO(resultPlayers);
 	}
+
+	@Override
+	public boolean insertCharacterOnPlayerQueue(Character character, long storyId, long userId) {
+		try {
+			PlayersStateDTO result = this.getPlayerStatusByStoryId(storyId);
+			result.getPlayers().add(this.characterService.getCharacterTokenById(character.getId()));
+			this.updatePlayersLocations(result, storyId);
+		} catch (ResourceNotFoundException e) {}
+		return true;
+	}
+
+	
 }

@@ -12,4 +12,8 @@ public interface CharacterClassLevelDAO extends JpaRepository<CharacterClassLeve
 	@Modifying
 	@Query("DELETE FROM CharacterClassLevel ccl where ccl.character.id = ?1")
 	void deleteAllClassLevelsOfCharacter(long characterId);
+	
+	
+	@Query("SELECT ccl FROM CharacterClassLevel ccl FETCH ALL PROPERTIES where ccl.character.id = ?1")
+	CharacterClassLevel getFirstLevelOfCharacter(long characterId);
 }

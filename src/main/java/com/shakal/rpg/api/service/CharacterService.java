@@ -151,14 +151,16 @@ public class CharacterService implements ICharacterService{
 		entity = this.characterDao.save(entity);
 		entity.setImagePath(
 				CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
-		this.userService.setCharacterToUserInStory(inputDto.getStoryId(),
-				inputDto.getUserId(), entity);
+		
 		this.buildCharacterAtributes(inputDto,entity,raceSearch.get(), classSearch.get());
 		this.characterClassLevelDAO.save(ClassMapper.createFistLevelOfPlayer(classLevelSearch.get(),entity));
 		this.tokenDao.save(CreatureTokenMapper.createToken(inputDto.getTokenImageRaw(),entity));
 		
 		
 		this.characterDao.save(entity);
+		
+		this.userService.setCharacterToUserInStory(inputDto.getStoryId(),
+				inputDto.getUserId(), entity);
 		return true;
 	}
 
@@ -391,19 +393,7 @@ public class CharacterService implements ICharacterService{
 		Character search = this.characterDao.findById(characterId)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
 		
-		CreatureCardDTO result = new CreatureCardDTO();
-		result.setId(search.getId());
-		result.setName(search.getName());
-		result.setLifePoints(search.getLifePoints());
-		result.setLevel(LevelMapper.entityToInfoDTO(search.getClassLevel().get(0).getClassLevel().getLevel()));
-		result.setTotalLifePoints(search.getTotalLifePoints());
-		//result.setImagePath(characterSheet.getImagePath());
-		result.setLifePercent(CombatHelper.calculateLifePercent(search.getTotalLifePoints(), search.getTotalLifePoints()));
-		result.setSpeed(search.getSpeed());
-		result.setPlayerId(search.getUserStory().get(0).getUser().getId());
-		result.setPosition(new CardPositionDTO(0,0));
-		result.setSize(1);
-		return result;
+		return CharacterMapper.mapEntityToCardDTO(search);
 	}
 	
 }
