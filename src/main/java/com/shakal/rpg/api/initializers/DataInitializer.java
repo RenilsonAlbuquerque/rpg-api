@@ -6,8 +6,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.shakal.rpg.api.model.User;
-import com.shakal.rpg.api.repository.UserDAO;
+import com.shakal.rpg.api.model.user.User;
+import com.shakal.rpg.api.repository.user.UserDAO;
 
 @Component
 public class DataInitializer {/*implements ApplicationRunner {

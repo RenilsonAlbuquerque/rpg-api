@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.shakal.rpg.api.handler.SecurityHandlerExceptionBuilder;
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
 import com.shakal.rpg.api.utils.Messages;
 
 import javax.servlet.FilterChain;

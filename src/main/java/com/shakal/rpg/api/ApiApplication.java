@@ -9,14 +9,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.shakal.rpg.api.model.User;
-import com.shakal.rpg.api.repository.UserDAO;
+import com.shakal.rpg.api.model.user.NativeUser;
+import com.shakal.rpg.api.repository.user.INativeUserDAO;
 
 @SpringBootApplication
 public class ApiApplication implements ApplicationRunner{
 
 	@Autowired
-	private UserDAO userRepository;
+	private INativeUserDAO nativeUserRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	public static void main(String[] args) throws IOException {
@@ -26,11 +26,11 @@ public class ApiApplication implements ApplicationRunner{
 	}
 	@Override
 	public void run(ApplicationArguments arg0) throws Exception {
-		 if(userRepository.findAll().isEmpty()) {
+		 if(nativeUserRepository.findAll().isEmpty()) {
 				String password = bCryptPasswordEncoder.encode("123456");
-				this.userRepository.save(new User("renilson",password));
+				this.nativeUserRepository.save(new NativeUser("renilson",password));
 				String password2 = bCryptPasswordEncoder.encode("123456");
-				this.userRepository.save(new User("shakal",password2));
+				this.nativeUserRepository.save(new NativeUser("shakal",password2));
 			}
 	 }
 	

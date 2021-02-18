@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
+
 public class SecurityAuditorAware implements AuditorAware<Long> {
 
 	@Override

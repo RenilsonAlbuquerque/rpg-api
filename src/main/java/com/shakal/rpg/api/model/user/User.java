@@ -1,4 +1,4 @@
-package com.shakal.rpg.api.model;
+package com.shakal.rpg.api.model.user;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,7 +24,8 @@ import com.shakal.rpg.api.model.relation.UserStory;
 
 @Entity
 @Table(name= "tb_user")
-public class User implements UserDetails {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User  {
 
 	/**
 	 * 
@@ -35,19 +38,13 @@ public class User implements UserDetails {
 	
 	private String username;
 	
-	private String password;
+	
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, targetEntity = UserStory.class)
 	private List<UserStory> stories;
 	
 	public User() {
 		super();
-	}
-
-	public User(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
 	}
 
 	public long getId() {
@@ -66,13 +63,6 @@ public class User implements UserDetails {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	
 	public List<UserStory> getStories() {
@@ -83,35 +73,6 @@ public class User implements UserDetails {
 		this.stories = stories;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	

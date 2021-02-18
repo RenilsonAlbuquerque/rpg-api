@@ -2,16 +2,16 @@ package com.shakal.rpg.api.security;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.shakal.rpg.api.dto.auth.LoginInputUserDTO;
+import com.shakal.rpg.api.dto.auth.GenericLoginDTO;
 import com.shakal.rpg.api.dto.auth.LoginReturnUserDTO;
 import com.shakal.rpg.api.handler.SecurityHandlerExceptionBuilder;
+import com.shakal.rpg.api.helpers.AuthHelper;
+import com.shakal.rpg.api.security.authentication.GenericAuthenticationContext;
 import com.shakal.rpg.api.utils.Messages;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -34,17 +34,16 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        LoginInputUserDTO loginDTO = null;
-        
+    	GenericLoginDTO loginDTO = null;
+      
         try{
-            loginDTO = new ObjectMapper().readValue(request.getInputStream(), LoginInputUserDTO.class);
+        	
+            loginDTO = AuthHelper.mapLoginStrategy(request.getInputStream());
             
             return getAuthenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDTO.getUsername(),
-                            loginDTO.getPassword()
-                    )
-            );
+            		new GenericAuthenticationContext(loginDTO)
+            		);
+        
         }catch(JsonProcessingException e){
             throw new BadCredentialsException(Messages.INVALID_JSON_FORMAT);
         }
@@ -57,7 +56,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             HttpServletRequest req,
             HttpServletResponse res, FilterChain chain,
             Authentication auth) throws IOException, ServletException {
-    	AuthenticationContext customAuth = (AuthenticationContext) auth;
+    	GenericAuthenticationContext customAuth = (GenericAuthenticationContext) auth;
     	
     	String token = JwtTokenProvider.addAuthentication(
     			customAuth.getId(),
@@ -66,7 +65,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     	String json = new Gson().toJson( new LoginReturnUserDTO(
     			customAuth.getId(),
     			customAuth.getName(),
-    			customAuth.getEmail(),
+    			customAuth.getName(),
     			token
     	));
     	

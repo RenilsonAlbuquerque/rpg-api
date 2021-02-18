@@ -1,4 +1,4 @@
-package com.shakal.rpg.api.security;
+package com.shakal.rpg.api.security.authentication;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.shakal.rpg.api.model.User;
+import com.shakal.rpg.api.model.user.User;
 
 
 

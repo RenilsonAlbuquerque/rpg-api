@@ -30,23 +30,24 @@ import com.shakal.rpg.api.mappers.CharacterMapper;
 import com.shakal.rpg.api.mappers.JSONMapper;
 import com.shakal.rpg.api.mappers.UserMapper;
 import com.shakal.rpg.api.model.Story;
-import com.shakal.rpg.api.model.User;
 import com.shakal.rpg.api.model.character.Character;
 import com.shakal.rpg.api.model.character.CharacterClassLevel;
 import com.shakal.rpg.api.model.combatstate.PlayersState;
 import com.shakal.rpg.api.model.embedded.UserStoryId;
 import com.shakal.rpg.api.model.relation.UserStory;
+import com.shakal.rpg.api.model.user.User;
 import com.shakal.rpg.api.repository.CharacterClassLevelDAO;
 import com.shakal.rpg.api.repository.CharacterDAO;
 import com.shakal.rpg.api.repository.PlayersStateDAO;
 import com.shakal.rpg.api.repository.StoryDAO;
-import com.shakal.rpg.api.repository.UserDAO;
 import com.shakal.rpg.api.repository.UserStoryDAO;
-import com.shakal.rpg.api.security.AuthenticationContext;
+import com.shakal.rpg.api.repository.user.UserDAO;
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
 import com.shakal.rpg.api.utils.Messages;
 
 @Service
-public class UserService implements UserDetailsService, IUserService {
+public class UserService implements  IUserService {
+
 
 	private UserDAO userDAO;
 	private UserStoryDAO userStoryDao;
@@ -74,12 +75,7 @@ public class UserService implements UserDetailsService, IUserService {
 		
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		return this.userDAO.findByUsername(username)
-				.orElseThrow(() -> new BadCredentialsException(Messages.USER_NOT_FOUND));
-	}
+	
 
 	@Override
 	public long getCurrentUserId() {

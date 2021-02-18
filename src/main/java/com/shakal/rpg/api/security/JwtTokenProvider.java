@@ -16,6 +16,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
 import com.shakal.rpg.api.service.UserService;
 
 import java.util.*;

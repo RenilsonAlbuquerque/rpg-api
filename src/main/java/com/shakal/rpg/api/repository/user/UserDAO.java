@@ -1,4 +1,4 @@
-package com.shakal.rpg.api.repository;
+package com.shakal.rpg.api.repository.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.shakal.rpg.api.model.User;
+import com.shakal.rpg.api.model.user.User;
 
 public interface UserDAO extends JpaRepository<User,Long> {
 

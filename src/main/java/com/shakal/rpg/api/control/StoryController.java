@@ -26,7 +26,7 @@ import com.shakal.rpg.api.dto.info.StoryInfoDTO;
 import com.shakal.rpg.api.dto.overview.StoryOverviewDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
-import com.shakal.rpg.api.security.AuthenticationContext;
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
 
 @CrossOrigin
 @RestController
