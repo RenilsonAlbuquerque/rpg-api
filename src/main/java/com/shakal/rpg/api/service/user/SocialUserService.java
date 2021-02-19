@@ -31,12 +31,12 @@ public class SocialUserService implements ISocialUserService {
 	@Override
 	public ISocialUser handleLogin(SocialInputUserDTO inputValue, SocialTypeEnum type) {
 		ISocialUser result = null;
-		/*
+		
 		if(type == SocialTypeEnum.FACEBOOK) {
 			
 			Optional<FacebookUser> search = this.facebookUserDAO.findUserByFacebookId(inputValue.getId());
 			
-			if(search.isEmpty()) {
+			if(!search.isPresent()) {
 				FacebookUser saved = this.facebookUserDAO.save(UserMapper.facebookDTOToEntity(inputValue));
 				result = new SocialUser(
 						saved.getId(),
@@ -53,7 +53,7 @@ public class SocialUserService implements ISocialUserService {
 		if(type == SocialTypeEnum.GOOGLE) {
 			Optional<GoogleUser> search = this.googleUserDAO.findUserByGoogleId(inputValue.getId());
 			
-			if(search.isEmpty()) {
+			if(!search.isPresent()) {
 				GoogleUser saved = this.googleUserDAO.save(UserMapper.googleDTOToEntity(inputValue));
 				result = new SocialUser(
 						saved.getId(),
@@ -67,7 +67,7 @@ public class SocialUserService implements ISocialUserService {
 			}
 			
 		}
-		*/
+		
 		return result;
 	}
 
