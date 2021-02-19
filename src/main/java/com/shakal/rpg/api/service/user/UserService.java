@@ -122,9 +122,9 @@ public class UserService implements  IUserService {
 	@Override
 	public UserManagementUpdateDTO updateUsersInStory(UserManagementUpdateDTO inputDto)
 			throws ResourceNotFoundException {
-		/*
+		
 		for(KeyValueDTO userDto:inputDto.getUsers()) {
-		   if(this.userStoryDao.retrieveCharacterOfUserInStory(userDto.getId(),inputDto.getStoryId()).isEmpty()) {
+		   if(!this.userStoryDao.retrieveCharacterOfUserInStory(userDto.getId(),inputDto.getStoryId()).isPresent()) {
 			   User user = this.userDAO.getOne(userDto.getId());
 			   Story story = this.storyDAO.getOne(inputDto.getStoryId());
 			   UserStory userStory = new UserStory();
@@ -138,7 +138,7 @@ public class UserService implements  IUserService {
 			   this.userStoryDao.save(userStory);
 		   }
 		}
-		*/
+		
 		return inputDto;
 	}
 	private void updatePlayerQueue(long storyId,long characterId,long userId) {
