@@ -43,7 +43,7 @@ public abstract class ProeficiencyMapper {
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 4));
 		value = ((proeficient) ? (character.getCharisma().getModfier() + proeficiencyBonus) : character.getCharisma().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Atuação"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Atuacao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 5));
 		value = ((proeficient) ? (character.getCharisma().getModfier() + proeficiencyBonus) : character.getCharisma().getModfier());
@@ -55,19 +55,19 @@ public abstract class ProeficiencyMapper {
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 7));
 		value = ((proeficient) ? (character.getInteligence().getModfier() + proeficiencyBonus) : character.getInteligence().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "História"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Historia"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 8));
 		value = ((proeficient) ? (character.getCharisma().getModfier() + proeficiencyBonus) : character.getCharisma().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Intimidação"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Intimidacao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 9));
 		value = ((proeficient) ? (character.getWisdom().getModfier() + proeficiencyBonus) : character.getWisdom().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Intuição"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Intuicao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 10));
 		value = ((proeficient) ? (character.getInteligence().getModfier() + proeficiencyBonus) : character.getInteligence().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Investigação"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Investigacao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 11));
 		value = ((proeficient) ? (character.getWisdom().getModfier() + proeficiencyBonus) : character.getWisdom().getModfier());
@@ -83,23 +83,23 @@ public abstract class ProeficiencyMapper {
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 14));
 		value = ((proeficient) ? (character.getWisdom().getModfier() + proeficiencyBonus) : character.getWisdom().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Percepção"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Percepcao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 15));
 		value = ((proeficient) ? (character.getCharisma().getModfier() + proeficiencyBonus) : character.getCharisma().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Persuasão"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Persuasao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 16));
 		value = ((proeficient) ? (character.getDexterity().getModfier() + proeficiencyBonus) : character.getDexterity().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Prestidigitação"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Prestidigitacao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 17));
 		value = ((proeficient) ? (character.getInteligence().getModfier() + proeficiencyBonus) : character.getInteligence().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Religião"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Religiao"));
 		
 		proeficient = character.getProeficiencies().stream().anyMatch(proe -> (proe.getId() == 18));
 		value = ((proeficient) ? (character.getWisdom().getModfier() + proeficiencyBonus) : character.getWisdom().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Sobrevivência"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Sobrevivencia"));
 		return result;
 	}
 	private boolean isProeficienct(int id,List<Proeficiency> proeficiencies ) {

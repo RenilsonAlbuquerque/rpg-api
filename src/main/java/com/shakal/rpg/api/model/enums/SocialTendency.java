@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 
 public enum SocialTendency {
 	
-	CHAOTIC("Caótico"),
+	CHAOTIC("Caotico"),
 	LAWFULL("Leal"),
 	NEUTRAL("Neutro");
 	

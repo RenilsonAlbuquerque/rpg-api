@@ -30,20 +30,20 @@ public class CharacterValidator {
 	public static ErrorMessages ValidateRecoveryEntities(ErrorMessages errorMessages,
 			Optional<Alignment> alignment, Optional<Race> race) {
 		if(!alignment.isPresent()) {
-			errorMessages.addError("Alinhamento Inválido");
+			errorMessages.addError("Alinhamento Invalido");
 		}
 		if(!race.isPresent()) {
-			errorMessages.addError("Raça inválida");
+			errorMessages.addError("Raca invalida");
 		}
 		return errorMessages;
 	}
 	public static ErrorMessages ValidateRecoveryClassEntities(ErrorMessages errorMessages,
 			Optional<ClassLevel> classLevel, Optional<Class> clasS) {
 		if(!classLevel.isPresent()) {
-			errorMessages.addError("Classe Nível Inválido");
+			errorMessages.addError("Classe Nivel Invalido");
 		}
 		if(!clasS.isPresent()) {
-			errorMessages.addError("Classe Inválida");
+			errorMessages.addError("Classe Invalida");
 		}
 		return errorMessages;
 	}
@@ -52,7 +52,7 @@ public class CharacterValidator {
 		try {
 			base64.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			errors.addError("Token inválido");
+			errors.addError("Token invalido");
 		}
 	}
 }

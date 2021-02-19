@@ -28,7 +28,7 @@ public class SwaggerConfig {
     public ApiInfo metadata() {
     	return new ApiInfoBuilder()
     			.title("RPG")
-    			.description("Documentação da API Restfull do RPG")
+    			.description("Documentacao da API Restfull do RPG")
     			.build();
     }
 

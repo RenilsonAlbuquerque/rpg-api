@@ -34,7 +34,7 @@ public class DriveExternalFileStorageImplementation implements IExternalFileStor
 		try {
 			return GoogleDriveRepository.retrieveFileById(id);
 		} catch (IOException | GeneralSecurityException e) {
-			throw new ResourceNotFoundException("Arquivo não encontrado");
+			throw new ResourceNotFoundException("Arquivo nao encontrado");
 		}
 	}
 

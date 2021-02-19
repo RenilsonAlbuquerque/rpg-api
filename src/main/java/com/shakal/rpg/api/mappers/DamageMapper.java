@@ -36,10 +36,10 @@ public class DamageMapper {
 		String result = "";
 		switch(enumInput) {
 			case ACID: 
-				result = "Ácido";
+				result = "acido";
 				break;
 			case BLUDGEONING: 
-				result = "Concussão";
+				result = "Concussao";
 				break;
 			case COLD: 
 				result = "Gelo";
@@ -48,13 +48,13 @@ public class DamageMapper {
 				result = "Fogo";
 				break;
 			case FORCE: 
-				result = "Força";
+				result = "Forca";
 				break;
 			case LIGHTNING: 
-				result = "Elétrico";
+				result = "Eletrico";
 				break;
 			case NECROTIC:
-				result = "Necrótico";
+				result = "Necrotico";
 				break;
 			case PIERCING: 
 				result = "Perfurante";
@@ -63,7 +63,7 @@ public class DamageMapper {
 				result = "Veneno";
 				break;
 			case PSYCHIC:
-				result = "Psíquico";
+				result = "Psiquico";
 				break;
 			case RADIANT: 
 				result = "Radiante";
@@ -72,7 +72,7 @@ public class DamageMapper {
 				result = "Veneno";
 				break;
 			case THUNDER:
-				result = "Trovão";
+				result = "Trovao";
 				break;
 			default:
 				break;

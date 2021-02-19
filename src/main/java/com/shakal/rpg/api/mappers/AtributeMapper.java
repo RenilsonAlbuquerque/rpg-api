@@ -40,7 +40,7 @@ public abstract class AtributeMapper {
 
 		boolean proeficient = character.getForce().isProeficiency();
 		int value = ((proeficient) ? (character.getForce().getModfier() + proeficiencyBonus) : character.getForce().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Força"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Forca"));
 		
 		proeficient = character.getDexterity().isProeficiency();
 		value = ((proeficient) ? (character.getDexterity().getModfier() + proeficiencyBonus) : character.getDexterity().getModfier());
@@ -48,11 +48,11 @@ public abstract class AtributeMapper {
 		
 		proeficient = character.getConstitution().isProeficiency();
 		value = ((proeficient) ? (character.getConstitution().getModfier() + proeficiencyBonus) : character.getConstitution().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Constituição"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Constituicao"));
 		
 		proeficient = character.getInteligence().isProeficiency();
 		value = ((proeficient) ? (character.getInteligence().getModfier() + proeficiencyBonus) : character.getInteligence().getModfier());
-		result.add(new ViewAtributeInfoDTO( proeficient, value, "Inteligência"));
+		result.add(new ViewAtributeInfoDTO( proeficient, value, "Inteligencia"));
 		
 		proeficient = character.getWisdom().isProeficiency();
 		value = ((proeficient) ? (character.getWisdom().getModfier() + proeficiencyBonus) : character.getWisdom().getModfier());

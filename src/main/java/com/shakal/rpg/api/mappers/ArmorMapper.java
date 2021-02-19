@@ -41,7 +41,7 @@ public class ArmorMapper {
 				+ ((entity.getArmorClass().getAtribute() != null) ? entity.getArmorClass().getAtribute().getValue() : "") + " " 
 				+ entity.getArmorClass().getMaxValue());
 		
-		result.setMinStrength("Força" + entity.getMinStrength());
+		result.setMinStrength("Forca" + entity.getMinStrength());
 		result.setBonus(entity.getAcBonus());
 		return result;
 	}

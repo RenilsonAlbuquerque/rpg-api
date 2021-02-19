@@ -26,7 +26,7 @@ public class LocalFileStorageImplementation  implements IExternalFileStorageStra
 			          .getEncoder()
 			          .encodeToString(Files.readAllBytes(file.toPath()));
 		} catch (IOException e) {
-			throw new ResourceNotFoundException("Arquivo não encontrado");
+			throw new ResourceNotFoundException("Arquivo nao encontrado");
 		}
 	}
 
