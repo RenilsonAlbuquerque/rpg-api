@@ -1,4 +1,4 @@
-package com.shakal.rpg.api.service;
+package com.shakal.rpg.api.service.user;
 
 
 
@@ -122,6 +122,7 @@ public class UserService implements  IUserService {
 	@Override
 	public UserManagementUpdateDTO updateUsersInStory(UserManagementUpdateDTO inputDto)
 			throws ResourceNotFoundException {
+		/*
 		for(KeyValueDTO userDto:inputDto.getUsers()) {
 		   if(this.userStoryDao.retrieveCharacterOfUserInStory(userDto.getId(),inputDto.getStoryId()).isEmpty()) {
 			   User user = this.userDAO.getOne(userDto.getId());
@@ -137,6 +138,7 @@ public class UserService implements  IUserService {
 			   this.userStoryDao.save(userStory);
 		   }
 		}
+		*/
 		return inputDto;
 	}
 	private void updatePlayerQueue(long storyId,long characterId,long userId) {

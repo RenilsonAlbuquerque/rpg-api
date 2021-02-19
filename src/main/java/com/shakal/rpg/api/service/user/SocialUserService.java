@@ -31,6 +31,7 @@ public class SocialUserService implements ISocialUserService {
 	@Override
 	public ISocialUser handleLogin(SocialInputUserDTO inputValue, SocialTypeEnum type) {
 		ISocialUser result = null;
+		/*
 		if(type == SocialTypeEnum.FACEBOOK) {
 			
 			Optional<FacebookUser> search = this.facebookUserDAO.findUserByFacebookId(inputValue.getId());
@@ -66,6 +67,7 @@ public class SocialUserService implements ISocialUserService {
 			}
 			
 		}
+		*/
 		return result;
 	}
 
