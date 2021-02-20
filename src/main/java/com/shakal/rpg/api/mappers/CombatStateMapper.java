@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.shakal.rpg.api.dto.combat.ActionStateDTO;
 import com.shakal.rpg.api.dto.combat.CombatStateDTO;
 import com.shakal.rpg.api.dto.combat.CreatureCardDTO;
 import com.shakal.rpg.api.model.combatstate.CombatState;
@@ -35,6 +36,8 @@ public abstract class CombatStateMapper {
 		combatState.setEnemyQueue(enemy);
 		combatState.setCreatures(creatures);
 		combatState.setCurrentCreatureTurn("");
+		combatState.setActionState(new ActionStateDTO());
+		combatState.setBlocked(false);
 		return combatState;
 		
 	}
