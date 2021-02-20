@@ -221,6 +221,8 @@ public class CombatService implements ICombatService{
 				break;
 			}
 		}
+		result.getActionState().setDoubleMove(0);
+		result.getActionState().setMove(0);
 		result.setCurrentCreatureTurn(nextCreature);
 		this.saveAndSend(passTurn.getStoryId(), result);
 		return true;
