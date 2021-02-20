@@ -14,6 +14,8 @@ public class CombatStateDTO {
 	private boolean combatStarted;
 	private long placeId;
 	private long floorId;
+	private boolean blocked;
+	private ActionStateDTO actionState;
 	
 	
 	
@@ -72,6 +74,18 @@ public class CombatStateDTO {
 	}
 	public void setFloorId(long floorId) {
 		this.floorId = floorId;
+	}
+	public boolean isBlocked() {
+		return blocked;
+	}
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+	public ActionStateDTO getActionState() {
+		return actionState;
+	}
+	public void setActionState(ActionStateDTO actionState) {
+		this.actionState = actionState;
 	}
 	
 	
