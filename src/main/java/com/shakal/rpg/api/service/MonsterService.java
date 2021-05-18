@@ -279,8 +279,8 @@ public class MonsterService implements IMonsterService {
 		*/
 		
 		entity = this.monsterDao.save(entity);
-		entity.setImagePath(
-				CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
+		entity.setImagePath("");
+				//CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
 		
 		entity.setAtributes(this.mountAtributes(inputDto, entity));
 		entity.setResistences(this.cretureResisteceService.mountResistence(inputDto, entity));
@@ -291,6 +291,7 @@ public class MonsterService implements IMonsterService {
 		
 		
 		this.tokenDao.save(CreatureTokenMapper.createToken(inputDto.getTokenImageRaw(),entity));
+		inputDto.setId(entity.getId());
 		return inputDto;
 	}
 	private List<CreatureAtribute> mountAtributes(MonsterCreateDTO inputDto, Monster monster){
