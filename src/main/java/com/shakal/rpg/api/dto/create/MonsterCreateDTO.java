@@ -38,6 +38,7 @@ public class MonsterCreateDTO {
 	private List<NameDescriptionDTO> features;
 	private List<ActionCreateDTO> actions;
 	private List<ActionCreateDTO> legendaryActions;
+	private boolean confidential;
 	
 	
 	public long getId() {
@@ -221,6 +222,12 @@ public class MonsterCreateDTO {
 	}
 	public void setLegendaryActions(List<ActionCreateDTO> legendaryActions) {
 		this.legendaryActions = legendaryActions;
+	}
+	public boolean isConfidential() {
+		return confidential;
+	}
+	public void setConfidential(boolean confidential) {
+		this.confidential = confidential;
 	}
 	
 	
