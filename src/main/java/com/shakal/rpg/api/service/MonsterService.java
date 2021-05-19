@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.shakal.rpg.api.contracts.service.IMonsterService;
@@ -46,6 +47,7 @@ import com.shakal.rpg.api.repository.MonsterDAO;
 import com.shakal.rpg.api.repository.MonsterFeatureDAO;
 import com.shakal.rpg.api.repository.MonsterSizeDAO;
 import com.shakal.rpg.api.repository.MonsterTypeDAO;
+import com.shakal.rpg.api.security.authentication.AuthenticationContext;
 import com.shakal.rpg.api.specification.MonsterSpecification;
 import com.shakal.rpg.api.exception.*;
 import com.shakal.rpg.api.filedata.service.ExternalCreatureProfileImageService;
@@ -255,6 +257,11 @@ public class MonsterService implements IMonsterService {
 										inputDto.getRaceDescription(),
 										typeResult));
 		
+		// ======= Log the entity
+		entity.setConfidential(inputDto.isConfidential());
+		long userId = ((AuthenticationContext) SecurityContextHolder.getContext().getAuthentication()).getId();
+		entity.setUserCreatorId(userId);
+		
 		entity.setSize(sizeSearch);
 		entity.setAlignment(alignmentSearch);
 		entity.setArmorClass(inputDto.getArmorClass());
@@ -267,16 +274,11 @@ public class MonsterService implements IMonsterService {
 		
 		
 		
-		//entity.setToken(CreatureMapper.createToken(inputDto.getTokenImageRaw(), error));
-		
 		if(error.hasError()) {
 			throw new BusinessException(error.getMessages().toString());
 		}
-		/*
-		entity.setActions(inputDto.getActions().stream()
-				.map(action -> ActionMapper.dtoToGenericEntity(action))
-				.collect(Collectors.toList()));
-		*/
+
+		
 		
 		entity = this.monsterDao.save(entity);
 		entity.setImagePath("");
