@@ -2,7 +2,6 @@ package com.shakal.rpg.api.service;
 
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.shakal.rpg.api.contracts.service.IFloorService;
 import com.shakal.rpg.api.contracts.service.IPlaceService;
 import com.shakal.rpg.api.dto.commons.NumberNumberDTO;
-import com.shakal.rpg.api.dto.create.FloorCreateDTO;
 import com.shakal.rpg.api.dto.create.PlaceCreateDTO;
 
 import com.shakal.rpg.api.dto.info.PlaceInfoDTO;
@@ -26,7 +24,6 @@ import com.shakal.rpg.api.filedata.service.ExternalMapImageService;
 import com.shakal.rpg.api.mappers.PlaceMapper;
 import com.shakal.rpg.api.mappers.StoryMapper;
 import com.shakal.rpg.api.model.Story;
-import com.shakal.rpg.api.model.place.Floor;
 import com.shakal.rpg.api.model.place.Place;
 import com.shakal.rpg.api.repository.PlaceDAO;
 import com.shakal.rpg.api.repository.FloorWallDAO;
@@ -91,9 +88,13 @@ public class PlaceService implements IPlaceService{
 		
 		entity.setStory(story);
 		entity = this.placeDao.save(entity);
+		/*
 		for(int i = 0; i< placeCreate.getFloors().size();i++) {
-			this.floorService.createFloor(placeCreate.getFloors().get(i), entity,Long.valueOf(i));
+			placeCreate.getFloors().get(i).setId(
+					this.floorService.createFloor(placeCreate.getFloors().get(i), entity,Long.valueOf(i)).getId()
+			);
 		}
+		*/
 		return PlaceMapper.entityToOverview(entity);
 	}
 
