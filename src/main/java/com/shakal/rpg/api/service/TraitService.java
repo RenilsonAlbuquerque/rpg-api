@@ -1,6 +1,9 @@
 package com.shakal.rpg.api.service;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +29,16 @@ public class TraitService {
 		this.traitDao = traitDao;
 		this.characterDao = characterDao;
 	}
-	
+	@Transactional
 	public CharcterTraitDTO getTraitsOfCharacter(long id) throws ResourceNotFoundException {
 		Character character = this.characterDao.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
 		
-		Optional<CharacterTrait> trait = this.traitDao.getCharacterTraitByCharacterId(id);
+		List<CharacterTrait> trait = this.traitDao.getCharacterTraitByCharacterId(id);
 		
-		if(trait.isPresent()) {
+		if(!trait.isEmpty()) {
 			return CharacterTraitMapper.entityToDTO(
-					trait.get()
+					trait.get(0)
 					);
 		}else {
 			return CharacterTraitMapper.createEmptyDto();

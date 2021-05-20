@@ -2,6 +2,8 @@ package com.shakal.rpg.api.service;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +31,9 @@ public class SpellService {
 	
 	public CharacterSpellDTO getSpellsOfCharacter(long id) throws ResourceNotFoundException {
 		
-		CharacterSpell characterSpellSearch = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
-		if(characterSpellSearch != null) {
-			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
+		List<CharacterSpell> characterSpellSearch = this.characterSpellDAO.getCharacterSpellByCharacterId(id);
+		if(!characterSpellSearch.isEmpty()) {
+			CharacterSpell spell = this.characterSpellDAO.getCharacterSpellByCharacterId(id).get(0);
 			return CharacterSpellMapper.spellEntityToDto(spell);
 		}else {
 			return CharacterSpellMapper.createEmptyDTO(id);
@@ -42,9 +44,9 @@ public class SpellService {
 	public boolean updateCreatureSpells(CharacterSpellDTO inputDto,long characterId) throws ResourceNotFoundException {
 		Character characterSearch = this.characterDao.findById(characterId)
 				.orElseThrow(() -> new ResourceNotFoundException(Messages.CHARACTER_NOT_FOUND));
-		CharacterSpell search2 = this.characterSpellDAO.getCharacterSpellByCharacterId(characterId);
+		List<CharacterSpell> search2 = this.characterSpellDAO.getCharacterSpellByCharacterId(characterId);
 		
-		if(search2 != null) {
+		if(!search2.isEmpty()) {
 			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch));
 		}else {
 			this.characterSpellDAO.save(CharacterSpellMapper.spellDtoToEntity(inputDto,characterSearch));

@@ -1,5 +1,6 @@
 package com.shakal.rpg.api.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,5 @@ public interface TraitDAO  extends JpaRepository<CharacterTrait,Long>{
 	Optional<CharacterTrait> getCharacterTraitByCharacterIdAndId(long characterId, long spellId);
 	
 	@Query("SELECT ct FROM CharacterTrait ct FETCH ALL PROPERTIES where ct.character.id = ?1")
-	Optional<CharacterTrait> getCharacterTraitByCharacterId(long characterId);
+	List<CharacterTrait> getCharacterTraitByCharacterId(long characterId);
 }
