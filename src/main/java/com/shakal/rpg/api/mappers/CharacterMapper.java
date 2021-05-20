@@ -8,6 +8,7 @@ import com.shakal.rpg.api.dto.combat.CreatureCardDTO;
 import com.shakal.rpg.api.dto.commons.KeyValueDTO;
 import com.shakal.rpg.api.dto.info.CharacterLifePointsDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
+import com.shakal.rpg.api.dto.output.CharacterCreateOutputDTO;
 import com.shakal.rpg.api.dto.overview.ClassLevelOveriewDTO;
 import com.shakal.rpg.api.helpers.CombatHelper;
 import com.shakal.rpg.api.model.character.Character;
@@ -124,6 +125,11 @@ public class CharacterMapper {
 		result.setPlayerId(playerId);
 		result.setPosition(new CardPositionDTO(0,0));
 		result.setSize(1);
+		return result;
+	}
+	public static CharacterCreateOutputDTO entityToOutput(Character character) {
+		CharacterCreateOutputDTO result = new CharacterCreateOutputDTO();
+		result.setId(character.getId());
 		return result;
 	}
 	

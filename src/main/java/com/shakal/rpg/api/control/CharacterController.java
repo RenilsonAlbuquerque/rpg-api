@@ -24,6 +24,7 @@ import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
 import com.shakal.rpg.api.dto.info.CharacterSpellDTO;
 import com.shakal.rpg.api.dto.info.CharcterTraitDTO;
+import com.shakal.rpg.api.dto.output.CharacterCreateOutputDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
@@ -48,8 +49,8 @@ public class CharacterController {
 	private IBagService bagService;
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> createCharacter(@RequestBody CharacterCreateDTO createDto) throws BusinessException, FileManagementException{
-		return new ResponseEntity<Boolean>(this.characterService.createCharacterInStory(createDto), HttpStatus.OK);
+    public ResponseEntity<CharacterCreateOutputDTO> createCharacter(@RequestBody CharacterCreateDTO createDto) throws BusinessException, FileManagementException{
+		return new ResponseEntity<CharacterCreateOutputDTO>(this.characterService.createCharacterInStory(createDto), HttpStatus.OK);
     }
 	@GetMapping(value="/metadata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CharacterCreateInputDTO> getCharacterCreationMetadata(){

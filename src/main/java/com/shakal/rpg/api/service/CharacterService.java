@@ -19,6 +19,7 @@ import com.shakal.rpg.api.dto.create.CharacterHeaderInputDTO;
 import com.shakal.rpg.api.dto.filter.UserSheetFIlterDTO;
 import com.shakal.rpg.api.dto.info.CharacterGeneralInfoDTO;
 import com.shakal.rpg.api.dto.info.CharacterSheetDTO;
+import com.shakal.rpg.api.dto.output.CharacterCreateOutputDTO;
 import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
@@ -110,7 +111,7 @@ public class CharacterService implements ICharacterService{
 	}
 	
 	@Override
-	public boolean createCharacterInStory(CharacterCreateDTO inputDto) throws BusinessException,FileManagementException {
+	public CharacterCreateOutputDTO createCharacterInStory(CharacterCreateDTO inputDto) throws BusinessException,FileManagementException {
 		ErrorMessages error = new ErrorMessages();
 		CharacterValidator.ValidateDTO(inputDto, error);
 		
@@ -149,9 +150,11 @@ public class CharacterService implements ICharacterService{
 		
 		
 		entity = this.characterDao.save(entity);
+		entity.setImagePath("");
+		/*
 		entity.setImagePath(
 				CharacterHelper.saveCharacterProfilePicture(entity.getId(), inputDto.getImagePath(),this.externalCreatureProfileImageService));
-		
+		*/
 		this.buildCharacterAtributes(inputDto,entity,raceSearch.get(), classSearch.get());
 		this.characterClassLevelDAO.save(ClassMapper.createFistLevelOfPlayer(classLevelSearch.get(),entity));
 		this.tokenDao.save(CreatureTokenMapper.createToken(inputDto.getTokenImageRaw(),entity));
@@ -161,7 +164,7 @@ public class CharacterService implements ICharacterService{
 		
 		this.userService.setCharacterToUserInStory(inputDto.getStoryId(),
 				inputDto.getUserId(), entity);
-		return true;
+		return CharacterMapper.entityToOutput(entity);
 	}
 
 	@Override
