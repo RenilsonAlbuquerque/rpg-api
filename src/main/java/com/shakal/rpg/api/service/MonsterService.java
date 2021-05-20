@@ -165,10 +165,11 @@ public class MonsterService implements IMonsterService {
 
 	@Override
 	public CustomPage<MonsterOverviewDTO> searchMonsterPaged(String name, PaginationFilter filter) {
+		long userId = ((AuthenticationContext) SecurityContextHolder.getContext().getAuthentication()).getId();
 		Specification<Monster> specification = MonsterSpecification.searchMonster(name);
 	    
-    	Page<Monster> page = this.monsterDao.findAll(specification,PageRequest.of(filter.getPage() -1, 
-				filter.getSize()));
+    	Page<Monster> page = this.monsterDao.retrieveAllMyMonsters(specification,PageRequest.of(filter.getPage() -1, 
+				filter.getSize()),userId);
     	return (CustomPage<MonsterOverviewDTO>) PaginationGenerator.convertPage(page,
     			page
         		.stream().map( monster -> MonsterMapper.entityToOverview(monster))
@@ -177,9 +178,9 @@ public class MonsterService implements IMonsterService {
 
 	@Override
 	public CustomPage<MonsterOverviewDTO> listsMonsterPaged(PaginationFilter filter) {
-		
-		Page<Monster> page = this.monsterDao.findAll(PageRequest.of(filter.getPage() -1, 
-				filter.getSize()));
+		long userId = ((AuthenticationContext) SecurityContextHolder.getContext().getAuthentication()).getId();
+		Page<Monster> page = this.monsterDao.retrieveAllMyMonsters(PageRequest.of(filter.getPage() -1, 
+				filter.getSize()),userId);
 		return (CustomPage<MonsterOverviewDTO>) PaginationGenerator.convertPage(page,page
         		.stream().map( monster -> MonsterMapper.entityToOverview(monster))
                 .collect(Collectors.toList()));
