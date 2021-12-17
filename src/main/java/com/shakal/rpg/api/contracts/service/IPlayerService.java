@@ -9,4 +9,5 @@ public interface IPlayerService {
 	PlayersStateDTO updatePlayersLocations(PlayersStateDTO input, long storyId);
 	PlayersStateDTO getPlayerStatusByStoryId(long storyId) throws ResourceNotFoundException;
 	boolean insertCharacterOnPlayerQueue(Character character,long storyId,long userId);
+	PlayersStateDTO mountPlayersStateOnStory(long storyId);
 }

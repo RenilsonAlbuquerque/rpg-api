@@ -61,7 +61,9 @@ public class PlayerService implements IPlayerService {
 		}
 		return result;
 	}
-	private PlayersStateDTO mountPlayersStateOnStory(long storyId) {
+
+	@Override
+	public PlayersStateDTO mountPlayersStateOnStory(long storyId) {
 		
 		List<CreatureCardDTO> resultPlayers = new ArrayList<CreatureCardDTO>();
 		for(UserStory userStory:this.userStoryDAO.retrieveAllUsersInStory(storyId)) {

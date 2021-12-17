@@ -27,4 +27,9 @@ public class PlayerController {
 		return new ResponseEntity<PlayersStateDTO>(this.playerService.getPlayerStatusByStoryId(id), HttpStatus.OK);
     }
 
+	@GetMapping(value="/state/create/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<PlayersStateDTO> getPlayersStateCreateByStoryId(@PathVariable Long id) throws ResourceNotFoundException{
+		return new ResponseEntity<PlayersStateDTO>(this.playerService.mountPlayersStateOnStory(id), HttpStatus.OK);
+	}
+
 }
