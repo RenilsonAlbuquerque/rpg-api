@@ -4,6 +4,7 @@ package com.shakal.rpg.api.control;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import com.shakal.rpg.api.exception.BusinessException;
 import com.shakal.rpg.api.exception.FileManagementException;
 import com.shakal.rpg.api.exception.ResourceNotFoundException;
 
+import java.util.concurrent.TimeUnit;
 
 
 @CrossOrigin
@@ -51,7 +53,9 @@ public class MonsterController {
 	
 	@GetMapping("/sheet/{id}")
     public ResponseEntity<MonsterSheetDTO> getMonsterById(@PathVariable Long id) throws ResourceNotFoundException {
-        return new ResponseEntity<MonsterSheetDTO>(monsterService.getMonsterSheetById(id), HttpStatus.OK);
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(120, TimeUnit.MINUTES))
+				.body(monsterService.getMonsterSheetById(id));
     }
 	@GetMapping("/edit/{id}")
     public ResponseEntity<MonsterCreateDTO> getMonsterToEditById(@PathVariable Long id) throws ResourceNotFoundException {
@@ -72,8 +76,9 @@ public class MonsterController {
 	 }
 	 @GetMapping("/info/{id}")
 	 public ResponseEntity<MonsterInfoDTO> getMonsterInfoById(@PathVariable Long id) throws ResourceNotFoundException {
-	    	
-	     return new ResponseEntity<MonsterInfoDTO>(monsterService.getMonsterInfoById(id), HttpStatus.OK);
+		 return ResponseEntity.ok()
+				 .cacheControl(CacheControl.maxAge(120, TimeUnit.MINUTES))
+				 .body(monsterService.getMonsterInfoById(id));
 	 }
 	 @GetMapping("/input")
 	 public ResponseEntity<MonsterCreateInputDTO> getMonsterValuesToCreate() {
